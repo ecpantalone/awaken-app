@@ -84,71 +84,37 @@ class App extends React.Component {
 
 <div class="content-wrapper">
     <div class="content">
-        <h2 class="content-head is-center">Excepteur sint occaecat cupidatat.</h2>
-
         <div class="pure-g">
-        <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-          <div class="pure-form pure-form-stacked">
+            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+                <form class="pure-form pure-form-stacked">
+                    <fieldset>
 
-          {/* Drop Down Menu Test for Classes in Airtable */}
-            <form action="/">
-              <label for="class">Choose a class that you want to email:</label>
-              <select id="class" name="classes">
-                  {/* these options should be generated based on what we have in Airtable */}
-                  {  listOfSessions }
-              </select>
-          </form>
+                    <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
 
-            {/* Drop Down Menu Test for Email Templates in Mailchimp */}
-            <form action="/">
-              <label for="template">Choose an email template:</label>
-              <select id="template" name="emails">
-                  { listOfEmailTemplates}
+                      {/* Drop Down Menu Test for Classes in Airtable */}
+                        <form action="/">
+                          <label for="class">Choose a class that you want to email:</label>
+                          <select id="class" name="classes">
+                              {/* these options should be generated based on what we have in Airtable */}
+                              {  listOfSessions }
+                          </select>
+                      </form>
 
-              </select>
-          </form>
+                        {/* Drop Down Menu Test for Email Templates in Mailchimp */}
+                        <form action="/">
+                          <label for="template">Choose an email template:</label>
+                          <select id="template" name="emails">
+                              { listOfEmailTemplates}
+
+                          </select>
+                      </form>
+                      </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            </div>
           </div>
-        </div>
-
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-
-                <h3 class="content-subhead">
-                    <i class="fa fa-rocket"></i>
-                    Get Started Quickly
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-mobile"></i>
-                    Responsive Layouts
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-th-large"></i>
-                    Modular
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-check-square-o"></i>
-                    Plays Nice
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
-            </div>
-        </div>
-    </div>
 
     <div class="ribbon l-box-lrg pure-g">
         <div class="l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5">
@@ -169,48 +135,10 @@ class App extends React.Component {
 
     <div class="content">
         <h2 class="content-head is-center">Dolore magna aliqua. Uis aute irure.</h2>
-
-        <div class="pure-g">
-            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-                <form class="pure-form pure-form-stacked">
-                    <fieldset>
-
-                        <label for="name">Your Name</label>
-                        <input id="name" type="text" placeholder="Your Name"></input>
-
-
-                        <label for="email">Your Email</label>
-                        <input id="email" type="email" placeholder="Your Email"></input>
-
-                        <label for="password">Your Password</label>
-                        <input id="password" type="password" placeholder="Your Password"></input>
-
-                        <button type="submit" class="pure-button">Sign Up</button>
-                    </fieldset>
-                </form>
-            </div>
-
-            <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
-                <h4>Contact Us</h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.
-                </p>
-
-                <h4>More Information</h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-            </div>
-        </div>
-
     </div>
 
     <div class="footer l-box is-center">
-        View the source of this layout to learn more. Made with love by the Pure Team.
+        footer
     </div>
 
 </div>
