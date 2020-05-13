@@ -13,6 +13,7 @@ class App extends React.Component {
       sessions:["session 1", "session 2"]    
     }
     
+    this.loadEmails = this.loadEmails.bind(this);
     this.emailListGenerator = this.emailListGenerator.bind(this);
     this.sessionListGenerator = this.sessionListGenerator.bind(this);
     //this.state = {
@@ -20,14 +21,19 @@ class App extends React.Component {
     //};
     //
   }
+  
+  componentDidMount()
+  {
+    this.loadEmails();
+    console.log(this.state.movies);
+  }
 
-    //componentDidMount() {
-    //  fetch(mailchimpLists)
-    //    .then(response => response.json())
-    //}
+  loadEmails(){
+      // "Connect" this to the mailchimp.js file
+    return "";
+  }
 
   emailListGenerator(email){
-
     return (<option value={email}>{email}</option>);
   }
   sessionListGenerator(session){
