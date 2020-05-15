@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
-
+import AirTableConn from './airtableconn';
 
 class App extends React.Component {
-
-
   constructor(props) {
     super(props)
 
@@ -14,6 +12,7 @@ class App extends React.Component {
     }
     
     this.loadEmails = this.loadEmails.bind(this);
+    this.loadSessions = this.loadSessions.bind(this);
     this.emailListGenerator = this.emailListGenerator.bind(this);
     this.sessionListGenerator = this.sessionListGenerator.bind(this);
     //this.state = {
@@ -25,11 +24,17 @@ class App extends React.Component {
   componentDidMount()
   {
     this.loadEmails();
+    this.loadSessions()
     console.log(this.state.movies);
   }
 
   loadEmails(){
       // "Connect" this to the mailchimp.js file
+    return "";
+  }
+
+  loadSessions(){
+    console.log(this.props.getSessions)
     return "";
   }
 
