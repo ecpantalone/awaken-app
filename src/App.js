@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import AirTableConn from './airtableconn';
+import AirTable from './airtable';
 import MailChimp from './mailchimp'
 
 class App extends React.Component {

@@ -13,7 +13,7 @@ AirtableVar.configure({
 const base = AirtableVar.base('appfQdjvtsNvuwzHF');
 let sessionsList = [];
 
-class AirTableConn extends React.Component {
+class AirTable extends React.Component {
     constructor(props) {
         super(props)
 
@@ -69,5 +69,5 @@ class AirTableConn extends React.Component {
 
 }
 
-export default AirTableConn;
+export default AirTable;
 
