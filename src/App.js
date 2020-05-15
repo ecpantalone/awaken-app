@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import MailChimp from './mailchimp'
 
 
 class App extends React.Component {
@@ -90,7 +91,9 @@ class App extends React.Component {
         <form action="/" class="menu box">
             <label for="template">Choose an email template:</label>
             <select id="template" name="emails">
-                { listOfEmailTemplates}
+                {  <MailChimp/> } // john knows how to fix this... we have a server issue
+
+                {/* { listOfEmailTemplates} */}
             </select>
         </form>
 
