@@ -4,7 +4,7 @@ import request from 'request';
 
 // these need to go into an .env file and be gitignored
 const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
-const mailchimpURI = "https://us18.api.mailchimp.com/3.0/";
+const mailchimpURI = "http://localhost:8080/https://us18.api.mailchimp.com/3.0/";
 
 class MailChimp extends React.Component {
   constructor(props) {
