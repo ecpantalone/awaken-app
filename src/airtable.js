@@ -23,7 +23,7 @@ class AirTable extends React.Component {
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
-        this.sessionListGenerator = this.sessionListGenerator.bind(this);
+        this.displaySessions = this.displaySessions.bind(this);
 
     }
     
@@ -59,7 +59,6 @@ class AirTable extends React.Component {
         
             records.forEach(function(record) {
                 studentsList.push(record.get('EmailAddress'));
-                
             });
             fetchNextPage();
         
@@ -80,7 +79,6 @@ class AirTable extends React.Component {
         displaySessions = this.state.sessions.map(this.buildSessions);
         return (
             <React.Fragment>
-                {/* <option value="1">Hi! </option> */}
                 {displaySessions}
             </React.Fragment>
         );
