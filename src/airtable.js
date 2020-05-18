@@ -23,16 +23,10 @@ class AirTable extends React.Component {
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
-        this.buildSessions = this.buildSessions.bind(this);
+        this.buildSession = this.buildSession.bind(this);
 
     }
     
-    componentDidMount() {
-        console.log("inside of component did mount");
-        this.getSessions();
-        this.setState({sessions: sessionsList});
-    }
-
     getSessions() {
         base('Session').select({
             view: "Grid view"
@@ -43,11 +37,11 @@ class AirTable extends React.Component {
                 console.log("inside of get sessions");
             });
             fetchNextPage();
-
+            
         }, function done(err) {
             if (err) { console.error(err); return; }
         });
-
+        this.setState({sessions: sessionsList}); 
         
     }
 
@@ -65,19 +59,35 @@ class AirTable extends React.Component {
         }, function done(err) {
             if (err) { console.error(err); return; }
         });
+        
     }
 
-    buildSessions(session) {
-        console.log("inside of session list generator");
-        return (<option value={session}>{session}</option>);
+    componentDidMount() {
+        console.log("inside of component did mount");
+        this.getSessions();
+         
+    }
+
+    buildSession(session) {
+        console.log("inside of build sessions");
+        return (<option value={session[0]}>{session[0]}</option>);
     }
 
     render() {
         console.log("inside of render");
         console.log(this.state.sessions);
         let displaySessions = [];
-        displaySessions = this.state.sessions.map(this.buildSessions);
+        console.log("right before the map");
+        // displaySessions = this.state.sessions.map(this.buildSession);
+        console.log(this.state.sessions);
         console.log(displaySessions);
+        console.log(sessionsList);
+        
+    this.state.sessions.forEach(session => {
+           console.log("hello");
+            displaySessions.push(<option value={session}>{session}</option>);
+        });
+
         return (
             <React.Fragment>
                 {displaySessions}
