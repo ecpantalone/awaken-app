@@ -23,7 +23,7 @@ class AirTable extends React.Component {
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
-        this.displaySessions = this.displaySessions.bind(this);
+        this.buildSessions = this.buildSessions.bind(this);
 
     }
     
@@ -77,6 +77,7 @@ class AirTable extends React.Component {
         console.log(this.state.sessions);
         let displaySessions = [];
         displaySessions = this.state.sessions.map(this.buildSessions);
+        console.log(displaySessions);
         return (
             <React.Fragment>
                 {displaySessions}
