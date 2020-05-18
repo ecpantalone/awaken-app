@@ -77,13 +77,11 @@ class App extends React.Component {
         {/* Drop Down Menu Test for Email Templates in Mailchimp */}
         <form action="/" class="menu box">
             <label for="template">Choose an email template:</label>
-            <select id="template" name="emails">
-                {  <MailChimp/> }
-
-                {/* { listOfEmailTemplates} */}
-            </select>
+            <select id="template" name="emails"> {  <MailChimp mode = "templateList"/> }</select>
+            <br></br>
+            <label for="list">Choose an email list:</label>
+            <select id="list" name="lists">{  <MailChimp mode = "emailList" /> }</select>  
         </form>
-
         </div>
       </body>  
     </div>
