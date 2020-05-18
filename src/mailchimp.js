@@ -52,7 +52,7 @@ class MailChimp extends React.Component {
   render (){
     const displayTemplates = this.state.templates.map(this.showTemplates);
   
-    console.log('displayTemplates', displayTemplates)
+   // console.log('displayTemplates', displayTemplates)
     return(
     <option value="1">Hi!</option>
     );

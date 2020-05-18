@@ -89,10 +89,9 @@ class App extends React.Component {
             <label for="class">Choose a class that you want to email:</label>
             <select id="class" name="classes">
                 {/* these options should be generated based on what we have in Airtable */}
-                {  listOfSessions}
+                {  <AirTable />}
             </select>
         </form>
-        <AirTable />
         {/* Drop Down Menu Test for Email Templates in Mailchimp */}
         <form action="/" class="menu box">
             <label for="template">Choose an email template:</label>

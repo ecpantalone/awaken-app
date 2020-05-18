@@ -19,7 +19,7 @@ class AirTable extends React.Component {
         super(props)
 
         this.state = {
-            sessions: ["default"]
+            sessions: []
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
@@ -28,26 +28,20 @@ class AirTable extends React.Component {
     }
     
     componentDidMount() {
+        console.log("inside of component did mount");
         this.getSessions();
-        this.getStudents("Session 1");
+        this.setState({sessions: sessionsList});
     }
 
     getSessions() {
         base('Session').select({
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
 
             records.forEach(function (record) {
-                // this.setState({
-                //     sessions: [ ...this.state.sessions, ...record.get('Session') ]
-                //   })
+                sessionsList.push(record.get('Session'));
                 console.log("inside of get sessions");
             });
-
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
             fetchNextPage();
 
         }, function done(err) {
@@ -62,16 +56,11 @@ class AirTable extends React.Component {
         base('Students').select({
             view: sessionid // this is the name of the view i.e. "Grid View" for all students "Session X" for a single session
         }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
         
             records.forEach(function(record) {
                 studentsList.push(record.get('EmailAddress'));
-                console.log(studentsList);
+                
             });
-        
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
             fetchNextPage();
         
         }, function done(err) {
@@ -79,24 +68,21 @@ class AirTable extends React.Component {
         });
     }
 
-    sessionListGenerator(session){
+    buildSessions(session) {
+        console.log("inside of session list generator");
         return (<option value={session}>{session}</option>);
-      }
+    }
 
     render() {
-        console.log("inside of render")
-    
-        // sessionsList.map(this.addSession);
-        let listOfSessions = [];
-        listOfSessions = this.state.sessions.map(this.sessionListGenerator);
+        console.log("inside of render");
+        console.log(this.state.sessions);
+        let displaySessions = [];
+        displaySessions = this.state.sessions.map(this.buildSessions);
         return (
-            <form action="/" class="menu box">
-            <label for="class">Choose a class that you want to email:</label>
-            <select id="class" name="classes">
-                {/* these options should be generated based on what we have in Airtable */}
-                {  listOfSessions }
-            </select>
-        </form>
+            <React.Fragment>
+                {/* <option value="1">Hi! </option> */}
+                {displaySessions}
+            </React.Fragment>
         );
     }
 
