@@ -3,8 +3,9 @@ import './App.css';
 //import { useEffect } from 'react';
 
 // these need to go into an .env file and be gitignored
+const CORS = "http://localhost:8080/";
 const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
-const mailchimpURI = "http://localhost:8080/https://us18.api.mailchimp.com/3.0/";
+const mailchimpURI = "https://us18.api.mailchimp.com/3.0/";
 
 class MailChimp extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class MailChimp extends React.Component {
       redirect: 'follow'
     };
 
-    fetch(mailchimpURI + "templates?apikey=" + mailchimpAPIKey, requestOptions)
+    fetch(CORS + mailchimpURI + "templates?apikey=" + mailchimpAPIKey, requestOptions)
       .then(response => {
         return response.json();
       })
@@ -65,7 +66,7 @@ class MailChimp extends React.Component {
       redirect: 'follow'
     };
 
-    fetch(mailchimpURI + "lists?apikey=" + mailchimpAPIKey, requestOptions)
+    fetch(CORS + mailchimpURI + "lists?apikey=" + mailchimpAPIKey, requestOptions)
       .then(response => {
         return response.json();
       })
