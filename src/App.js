@@ -1,39 +1,52 @@
 import React from 'react';
 import './App.css';
 import AirTable from './airtable';
-import MailChimp from './mailchimp'
+import MailChimp from './mailchimp';
+import EmailLists from './emaillists';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      sessions:["session 1", "session 2"]    
+    this.state = {  
+      sessions: [],
+      students: [],
+      lists: []
     }
-  }
 
-
-    this.sessionListGenerator = this.sessionListGenerator.bind(this);
-    //this.state = {
-    //
-    //};
-    //
+    this.airtableSessionsCallback = this.airtableSessionsCallback.bind(this);
+    this.airtableStudentsCallback = this.airtableStudentsCallback.bind(this);
+    this.mailchimpListsCallback = this.mailchimpListsCallback.bind(this);
   }
   
-  componentDidMount()
-  {
-    
-    console.log("let's see if this pops up");
+  airtableSessionsCallback = (airtableSessions) => {
+    this.setState({
+      sessions: airtableSessions
+  });
+  console.log(this.state.sessions)
   }
 
-  sessionListGenerator(session){
-    return (<option value={session}>{session}</option>);
+  airtableStudentsCallback = (airtableStudents) => {
+    this.setState({
+      students: airtableStudents
+  });
+  console.log(this.state.students)
+  }
+
+  mailchimpListsCallback = (mailchimpLists) => {
+    this.setState({
+      lists: mailchimpLists
+  });
+  console.log(this.state.lists)
+  }
+
+  componentDidMount() {
+    this.airtableSessionsCallback();
+    this.airtableStudentsCallback();
+    this.mailchimpListsCallback();
   }
 
   render() {
-  let listOfSessions = [];
-
-  listOfSessions = this.state.sessions.map(this.sessionListGenerator);
 
 
   return (
@@ -64,6 +77,9 @@ class App extends React.Component {
            </ul>
         </div>
       </nav>
+      <div class = "list">
+        {<EmailLists sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} />}
+      </div>
 
       <div class = "menu">
         {/* Drop Down Menu Test for Classes in Airtable */}
@@ -71,16 +87,16 @@ class App extends React.Component {
             <label for="class">Choose a class that you want to email:</label>
             <select id="class" name="classes">
                 {/* these options should be generated based on what we have in Airtable */}
-                {  <AirTable />}
+                {  <AirTable callbackForSessions={this.airtableSessionsCallback} callbackForStudents={this.airtableStudentsCallback}/>}
             </select>
         </form>
         {/* Drop Down Menu Test for Email Templates in Mailchimp */}
         <form action="/" class="menu box">
             <label for="template">Choose an email template:</label>
-            <select id="template" name="emails"> {  <MailChimp mode = "templateList"/> }</select>
+            <select id="template" name="emails"> {  <MailChimp mode = "templateList" callbackForLists={this.mailchimpListsCallback} /> }</select>
             <br></br>
             <label for="list">Choose an email list:</label>
-            <select id="list" name="lists">{  <MailChimp mode = "emailList" /> }</select>  
+            <select id="list" name="lists">{  <MailChimp mode = "emailList" callbackForLists={this.mailchimpListsCallback}/> }</select>  
         </form>
         </div>
       </body>  

@@ -43,6 +43,8 @@ class AirTable extends React.Component {
             fetchNextPage();
 
         }, function done(err) {
+            // this passes data in session state to parent (app.js)
+            self.props.callbackForSessions(self.state.sessions);
             if (err) { console.error(err); return; }
         });
     }
@@ -66,6 +68,8 @@ class AirTable extends React.Component {
             self.setState({
                 studentLists:[...self.state.studentLists, tempEmailList]
             });
+            // this passes data in student lists state to parent (app.js)
+            self.props.callbackForStudents(self.state.studentLists);
             if (err) { console.error(err); return; }
         });
 
@@ -81,8 +85,8 @@ class AirTable extends React.Component {
 
     render() {
         let displaySessions = [];
-        console.log(this.state.sessions);
-        console.log(this.state.studentLists)
+        // console.log(this.state.sessions);
+        // console.log(this.state.studentLists)
         displaySessions = this.state.sessions.map(this.buildSession);
 
         return (
@@ -97,4 +101,3 @@ class AirTable extends React.Component {
 
 export default AirTable;
 
-    // // this function needs to be called by a selection on the dropdown list in the main app

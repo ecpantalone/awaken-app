@@ -47,8 +47,8 @@ class MailChimp extends React.Component {
         return response.json();
       })
       .then(jsonData => {
-        console.log(jsonData);
-        console.log('got to line 40')
+        // console.log(jsonData);
+        // console.log('got to line 40')
         this.setState({templates: jsonData.templates})})
       .catch(error => console.log('error', error));
   }
@@ -70,7 +70,10 @@ class MailChimp extends React.Component {
       })
       .then(jsonData => {
         console.log(jsonData);
-        this.setState({templates: jsonData.lists})})
+        this.setState({lists: jsonData.lists});
+        console.log(this.state.lists);
+        this.props.callbackForLists(this.state.lists);})
+        
       .catch(error => console.log('error', error));
   }
 
