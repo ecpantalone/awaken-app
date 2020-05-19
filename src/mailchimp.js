@@ -45,7 +45,6 @@ class MailChimp extends React.Component {
       })
       .then(jsonData => {
         console.log(jsonData);
-        console.log('got to line 40')
         this.setState({
           templates: jsonData.templates, 
           templatesIsLoading: false
@@ -84,7 +83,8 @@ class MailChimp extends React.Component {
 
   createCampaign()
   {
-    if(!this.state.campaignSent){
+    if(!this.state.campaignSent)
+    {
     console.log("I'm in the createCampaign function.");
   
     let requestOptions = {
