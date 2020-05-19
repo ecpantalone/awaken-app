@@ -11,16 +11,17 @@ AirtableVar.configure({
     apiKey: 'keyn1hpKbx5jhKY7i'
 });
 const base = AirtableVar.base('appfQdjvtsNvuwzHF');
-let sessionsList = [];
 
 class AirTable extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            sessions: []
+            sessions: [],
+            studentLists: []
         }
         this.getSessions = this.getSessions.bind(this);
+        this.getStudents = this.getStudents.bind(this);
         this.buildSession = this.buildSession.bind(this);
 
     }
@@ -32,15 +33,40 @@ class AirTable extends React.Component {
         }).eachPage(function page(records, fetchNextPage) {
 
             records.forEach(function (record) {
-                self.setState({ 
+                // add session to session state
+                self.setState({
                     sessions: self.state.sessions.concat([record.get('Session')])
-                  });
+                });
+                // run get students on each session
+                self.getStudents(record.get('Session'));
             });
             fetchNextPage();
 
         }, function done(err) {
             if (err) { console.error(err); return; }
         });
+    }
+
+    getStudents(sessionview) {
+        let tempStudentsList = [];
+        var self = this;
+        base('Students').select({
+            view: sessionview // this is the name of the view i.e. "Grid View" for all students "Session X" for a single session
+        }).eachPage(function page(records, fetchNextPage) {
+
+            records.forEach(function (record) {
+                tempStudentsList.push(record.get('EmailAddress'));
+            });
+            fetchNextPage();
+
+        }, function done(err) {
+            self.setState({
+                studentLists:[...self.state.studentLists, tempStudentsList]
+            });
+            console.log(self.state.studentLists);
+            if (err) { console.error(err); return; }
+        });
+
     }
 
     componentDidMount() {
@@ -53,6 +79,8 @@ class AirTable extends React.Component {
 
     render() {
         let displaySessions = [];
+        console.log(this.state.sessions);
+        console.log(this.state.studentLists)
         displaySessions = this.state.sessions.map(this.buildSession);
 
         return (
@@ -68,19 +96,3 @@ class AirTable extends React.Component {
 export default AirTable;
 
     // // this function needs to be called by a selection on the dropdown list in the main app
-    // getStudents(sessionid) {
-    //    let studentsList = [];
-    //     base('Students').select({
-    //         view: sessionid // this is the name of the view i.e. "Grid View" for all students "Session X" for a single session
-    //     }).eachPage(function page(records, fetchNextPage) {
-        
-    //         records.forEach(function(record) {
-    //             studentsList.push(record.get('EmailAddress'));
-    //         });
-    //         fetchNextPage();
-        
-    //     }, function done(err) {
-    //         if (err) { console.error(err); return; }
-    //     });
-        
-    // }
