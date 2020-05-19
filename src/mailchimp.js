@@ -11,6 +11,8 @@ class MailChimp extends React.Component {
     super(props);
 
     this.state = {
+      templatesIsLoading: true,
+      emailIsLoading: true,
       templates: [],
       lists: []
     }
@@ -51,6 +53,7 @@ class MailChimp extends React.Component {
         console.log('got to line 40')
         this.setState({templates: jsonData.templates})})
       .catch(error => console.log('error', error));
+      this.setState({templatesIsLoading: false});
   }
 
   getEmailLists()
@@ -72,6 +75,8 @@ class MailChimp extends React.Component {
         console.log(jsonData);
         this.setState({templates: jsonData.lists})})
       .catch(error => console.log('error', error));
+      this.setState({emailIsLoading: false});
+
   }
 
   componentDidMount()
@@ -106,24 +111,28 @@ class MailChimp extends React.Component {
 
   render (){
     // let display = renderStuff();
+    let display = [];
     let displayTemplates = [];
     displayTemplates = this.state.templates.map(this.buildTemplate);
     let displayEmailLists = [];
     displayEmailLists = this.state.lists.map(this.buildList);
+    
+    if(this.props.mode == "templateList"){
+      display = this.state.templates.map(this.buildTemplate);
+    }
+    else if (this.props.mode == "emailList"){
+      display = this.state.lists.map(this.buildList);
+    }
+
+    // if((emailIsLoading == false) && (templatesIsLoading == false)){
+    // }
+
     return(
       <React.Fragment>
-        {displayTemplates}
-        {displayEmailLists}
-        {/* {display} */}
-        {/* {if (this.props.mode == "templateList"){
-          {displayTemplates}
-          }
-        else if (this.props.mode == "emailList"){
-          {displayEmailLists}
-          } */}
+      (!this.state.templatesIsLoading && !this.state.emailIsLoading) ? {display} : <option value="hi">- -LOADING - -</option>
       </React.Fragment>
-      
     );
+    
   }
 }
 
