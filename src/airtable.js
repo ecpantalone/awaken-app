@@ -18,7 +18,7 @@ class AirTable extends React.Component {
 
         this.state = {
             sessions: [],
-            studentLists: []
+            students: new Map()
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
@@ -50,7 +50,8 @@ class AirTable extends React.Component {
     }
 
     getStudents(sessionview) {
-        let tempEmailList = [];
+        let tempStudentList = [];
+        
         const self = this;
         
         base('Students').select({
@@ -58,18 +59,23 @@ class AirTable extends React.Component {
         }).eachPage(function page(records, fetchNextPage) {
 
             records.forEach(function (record) {
+                let tempStudentData = new Map();
+                tempStudentData.set(record.get('FirstName'), 'FirstName')
+                tempStudentData.set(record.get('LastName'), 'LastName')
+                tempStudentData.set(record.get('EmailAddress'), 'EmailAddress')
                 // add each email address to a temp email list array
-                tempEmailList.push(record.get('EmailAddress'));
+                tempStudentList.push(tempStudentData);
             });
             fetchNextPage();
 
         }, function done(err) {
             // add the entire temp email list array to one spot in student list state
             self.setState({
-                studentLists:[...self.state.studentLists, tempEmailList]
+                students: self.state.students.set(tempStudentList, sessionview)
+                //students:[...self.state.students, tempStudentList]
             });
             // this passes data in student lists state to parent (app.js)
-            self.props.callbackForStudents(self.state.studentLists);
+            self.props.callbackForStudents(self.state.students);
             if (err) { console.error(err); return; }
         });
 
@@ -86,7 +92,7 @@ class AirTable extends React.Component {
     render() {
         let displaySessions = [];
         // console.log(this.state.sessions);
-        // console.log(this.state.studentLists)
+        // console.log(this.state.students)
         displaySessions = this.state.sessions.map(this.buildSession);
 
         return (
