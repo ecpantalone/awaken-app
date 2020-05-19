@@ -21,7 +21,7 @@ class MailChimp extends React.Component {
   componentDidMount()
   {
     this.getTemplates();
-    console.log(this.state.templates);
+    // console.log(this.state.templates);
   }
   
   getTemplates()

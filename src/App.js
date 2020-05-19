@@ -12,48 +12,9 @@ class App extends React.Component {
       sessions:["session 1", "session 2"]    
     }
     
-    this.loadEmails = this.loadEmails.bind(this);
-    this.loadSessions = this.loadSessions.bind(this);
-    this.emailListGenerator = this.emailListGenerator.bind(this);
-    this.sessionListGenerator = this.sessionListGenerator.bind(this);
-    //this.state = {
-    //
-    //};
-    //
   }
   
-  componentDidMount()
-  {
-    this.loadEmails();
-    this.loadSessions()
-    console.log(this.state.movies);
-  }
-
-  loadEmails(){
-      // "Connect" this to the mailchimp.js file
-    return "";
-  }
-
-  loadSessions(){
-    console.log(this.props.getSessions)
-    return "";
-  }
-
-  emailListGenerator(email){
-    return (<option value={email}>{email}</option>);
-  }
-  sessionListGenerator(session){
-    return (<option value={session}>{session}</option>);
-  }
-
   render() {
-  let listOfEmailTemplates = [];
-  let listOfSessions = [];
-
-  listOfEmailTemplates = this.state.emailTemplateLists.map(this.emailListGenerator);
-  listOfSessions = this.state.sessions.map(this.sessionListGenerator);
-
-
   return (
     
     <div className="App">
