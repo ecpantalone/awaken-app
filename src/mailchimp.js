@@ -22,16 +22,10 @@ class MailChimp extends React.Component {
     this.getEmailLists = this.getEmailLists.bind(this);
     this.buildTemplate = this.buildTemplate.bind(this);
     this.buildList = this.buildList.bind(this);
-    //this.renderStuff = this.renderStuff.bind(this);
 
   }
 
-  // useEffect(() => {
-  //   let canceled = false;
 
-  //   setLoading(true);
-    
-  // })
 
   getTemplates()
   {
@@ -51,9 +45,13 @@ class MailChimp extends React.Component {
       .then(jsonData => {
         console.log(jsonData);
         console.log('got to line 40')
-        this.setState({templates: jsonData.templates})})
+        this.setState({
+          templates: jsonData.templates, 
+          templatesIsLoading: false
+        });        
+        console.log(this.state.templates);
+      })
       .catch(error => console.log('error', error));
-      this.setState({templatesIsLoading: false});
   }
 
   getEmailLists()
@@ -73,16 +71,21 @@ class MailChimp extends React.Component {
       })
       .then(jsonData => {
         console.log(jsonData);
-        this.setState({templates: jsonData.lists})})
+        this.setState({
+          lists: jsonData.lists,
+          emailIsLoading: false
+        });
+        console.log(this.state.lists);
+
+      })
       .catch(error => console.log('error', error));
-      this.setState({emailIsLoading: false});
 
   }
 
   componentDidMount()
   {
-    this.getTemplates();
-    this.getEmailLists();
+     this.getTemplates();
+     this.getEmailLists();
   }
   
   buildTemplate(template)
@@ -95,41 +98,24 @@ class MailChimp extends React.Component {
     return (<option value={list.id} key={list.id}>{list.name}</option>)
   }
 
-  // renderStuff()
-  // {
-  //   let display = [];
-  //   if (this.props.mode === "templateList")
-  //   {
-  //     display = this.state.templates.map(this.buildTemplate);
-  //   }
-  //   else if (this.props.mode === "emailList")
-  //   {
-  //     display = this.state.lists.map(this.buildList);
-  //   }
-  //   return display;
-  // }
-
   render (){
-    // let display = renderStuff();
     let display = [];
-    let displayTemplates = [];
-    displayTemplates = this.state.templates.map(this.buildTemplate);
-    let displayEmailLists = [];
-    displayEmailLists = this.state.lists.map(this.buildList);
     
-    if(this.props.mode == "templateList"){
+    if(this.props.mode === "templateList"){
+      if (!this.state.templatesIsLoading){
       display = this.state.templates.map(this.buildTemplate);
+      }
     }
-    else if (this.props.mode == "emailList"){
+    else if (this.props.mode === "emailList"){
+      if (!this.state.emailIsLoading){
       display = this.state.lists.map(this.buildList);
+      }
     }
 
-    // if((emailIsLoading == false) && (templatesIsLoading == false)){
-    // }
 
     return(
       <React.Fragment>
-      (!this.state.templatesIsLoading && !this.state.emailIsLoading) ? {display} : <option value="hi">- -LOADING - -</option>
+      {display}
       </React.Fragment>
     );
     
