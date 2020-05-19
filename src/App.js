@@ -8,13 +8,32 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      emailTemplateLists: ["emailA", "emailB"],
       sessions:["session 1", "session 2"]    
     }
-    
+
+    this.sessionListGenerator = this.sessionListGenerator.bind(this);
+    //this.state = {
+    //
+    //};
+    //
   }
   
+  componentDidMount()
+  {
+    
+    console.log("let's see if this pops up");
+  }
+
+  sessionListGenerator(session){
+    return (<option value={session}>{session}</option>);
+  }
+
   render() {
+  let listOfSessions = [];
+
+  listOfSessions = this.state.sessions.map(this.sessionListGenerator);
+
+
   return (
     
     <div className="App">
@@ -56,13 +75,11 @@ class App extends React.Component {
         {/* Drop Down Menu Test for Email Templates in Mailchimp */}
         <form action="/" class="menu box">
             <label for="template">Choose an email template:</label>
-            <select id="template" name="emails">
-                {  <MailChimp/> } // john knows how to fix this... we have a server issue
-
-                {/* { listOfEmailTemplates} */}
-            </select>
+            <select id="template" name="emails"> {  <MailChimp mode = "templateList"/> }</select>
+            <br></br>
+            <label for="list">Choose an email list:</label>
+            <select id="list" name="lists">{  <MailChimp mode = "emailList" /> }</select>  
         </form>
-
         </div>
       </body>  
     </div>
