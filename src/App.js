@@ -11,39 +11,45 @@ class App extends React.Component {
     this.state = {  
       sessions: [],
       students: [],
-      lists: []
+      lists: [],
+      segments: []
     }
 
     this.airtableSessionsCallback = this.airtableSessionsCallback.bind(this);
     this.airtableStudentsCallback = this.airtableStudentsCallback.bind(this);
     this.mailchimpListsCallback = this.mailchimpListsCallback.bind(this);
+    this.mailchimpSegmentsCallback = this.mailchimpSegmentsCallback.bind(this);
   }
   
   airtableSessionsCallback = (airtableSessions) => {
     this.setState({
       sessions: airtableSessions
   });
-  console.log(this.state.sessions)
   }
 
   airtableStudentsCallback = (airtableStudents) => {
     this.setState({
       students: airtableStudents
   });
-  console.log(this.state.students)
   }
 
   mailchimpListsCallback = (mailchimpLists) => {
     this.setState({
       lists: mailchimpLists
   });
-  console.log(this.state.lists)
+  }
+
+  mailchimpSegmentsCallback = (mailchimpSegments) => {
+    this.setState({
+      segments: mailchimpSegments
+  });
   }
 
   componentDidMount() {
     this.airtableSessionsCallback();
     this.airtableStudentsCallback();
     this.mailchimpListsCallback();
+    this.mailchimpSegmentsCallback();
   }
 
   render() {
@@ -78,7 +84,7 @@ class App extends React.Component {
         </div>
       </nav>
       <div class = "list">
-        {<EmailLists sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} />}
+        {<EmailLists sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} />}
       </div>
 
       <div class = "menu">
@@ -93,10 +99,10 @@ class App extends React.Component {
         {/* Drop Down Menu Test for Email Templates in Mailchimp */}
         <form action="/" class="menu box">
             <label for="template">Choose an email template:</label>
-            <select id="template" name="emails"> {  <MailChimp mode = "templateList" callbackForLists={this.mailchimpListsCallback} /> }</select>
+            <select id="template" name="emails"> {  <MailChimp mode = "templateList" callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback}/> }</select>
             <br></br>
             <label for="list">Choose an email list:</label>
-            <select id="list" name="lists">{  <MailChimp mode = "emailList" callbackForLists={this.mailchimpListsCallback}/> }</select>  
+            <select id="list" name="lists">{  <MailChimp mode = "emailList" callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback}/> }</select>  
         </form>
         </div>
       </body>  

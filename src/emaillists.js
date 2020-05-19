@@ -21,9 +21,9 @@ class EmailLists extends React.Component {
     }
 
     getMailchimpListNames() {
-        if (this.props.lists && mailchimpLists.length === 0) {
-            for (let index = 0; index < (this.props.lists).length; index++) {
-                mailchimpLists.push(this.props.lists[index].name);
+        if (this.props.segments && mailchimpLists.length === 0) {
+            for (let index = 0; index < (this.props.segments).length; index++) {
+                mailchimpLists.push(this.props.segments[index].name);
             }
             console.log(mailchimpLists);
             this.compareLists();
