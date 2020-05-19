@@ -10,6 +10,8 @@ class App extends React.Component {
     this.state = {
       sessions:["session 1", "session 2"]    
     }
+  }
+
 
     this.sessionListGenerator = this.sessionListGenerator.bind(this);
     //this.state = {
