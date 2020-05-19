@@ -1,18 +1,16 @@
 import React from 'react';
 import './App.css';
+import AirTable from './airtable';
 import MailChimp from './mailchimp'
 
-
 class App extends React.Component {
-
-
   constructor(props) {
     super(props)
 
     this.state = {
       sessions:["session 1", "session 2"]    
     }
-    
+
     this.sessionListGenerator = this.sessionListGenerator.bind(this);
     //this.state = {
     //
