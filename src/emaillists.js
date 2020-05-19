@@ -21,13 +21,14 @@ class EmailLists extends React.Component {
     }
 
     getMailchimpListNames() {
-        console.log(this.props.students);
+        
         if (this.props.segments && mailchimpLists.length === 0) {
             for (let index = 0; index < (this.props.segments).length; index++) {
                 mailchimpLists.push(this.props.segments[index].name);
             }
             console.log(mailchimpLists);
             this.compareLists();
+            console.log(this.props.students);
         }
     }
 

@@ -59,21 +59,19 @@ class AirTable extends React.Component {
         }).eachPage(function page(records, fetchNextPage) {
 
             records.forEach(function (record) {
-                let tempStudentData = new Map();
-                tempStudentData.set(record.get('FirstName'), 'FirstName')
-                tempStudentData.set(record.get('LastName'), 'LastName')
-                tempStudentData.set(record.get('EmailAddress'), 'EmailAddress')
-                // add each email address to a temp email list array
+                // store temp studnt data in hash table i think?
+                let tempStudentData = {FirstName: record.get('FirstName'), LastName: record.get('LastName'), EmailAddress: record.get('EmailAddress')}
+                // add each chunk of student data to the student list
                 tempStudentList.push(tempStudentData);
             });
             fetchNextPage();
 
         }, function done(err) {
-            // add the entire temp email list array to one spot in student list state
+            let newStudentList = {[sessionview]: tempStudentList}
             self.setState({
-                students: self.state.students.set(tempStudentList, sessionview)
-                //students:[...self.state.students, tempStudentList]
+                students:[...self.state.students, newStudentList]
             });
+            
             // this passes data in student lists state to parent (app.js)
             self.props.callbackForStudents(self.state.students);
             if (err) { console.error(err); return; }
