@@ -27,7 +27,7 @@ class AirTable extends React.Component {
     }
     
     getSessions() {
-        var self = this;
+        const self = this;
         base('Session').select({
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
@@ -48,22 +48,24 @@ class AirTable extends React.Component {
     }
 
     getStudents(sessionview) {
-        let tempStudentsList = [];
-        var self = this;
+        let tempEmailList = [];
+        const self = this;
+        
         base('Students').select({
             view: sessionview // this is the name of the view i.e. "Grid View" for all students "Session X" for a single session
         }).eachPage(function page(records, fetchNextPage) {
 
             records.forEach(function (record) {
-                tempStudentsList.push(record.get('EmailAddress'));
+                // add each email address to a temp email list array
+                tempEmailList.push(record.get('EmailAddress'));
             });
             fetchNextPage();
 
         }, function done(err) {
+            // add the entire temp email list array to one spot in student list state
             self.setState({
-                studentLists:[...self.state.studentLists, tempStudentsList]
+                studentLists:[...self.state.studentLists, tempEmailList]
             });
-            console.log(self.state.studentLists);
             if (err) { console.error(err); return; }
         });
 
