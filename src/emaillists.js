@@ -4,43 +4,85 @@ import './App.css';
 import AirTable from './airtable';
 import MailChimp from './mailchimp';
 
+let mailchimpLists = [];
+
 class EmailLists extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
+
+        this.state = {
+            listsToAdd: []
+        }
 
         this.compareLists = this.compareLists.bind(this);
         this.compareStudentsOnList = this.compareStudentsOnList.bind(this);
+        this.buildLists = this.buildLists.bind(this);
         this.addList = this.addList.bind(this);
     }
 
-    compareLists() {
-        console.log("inside of compare lists");
-        console.log(this.props.sessions);
-        console.log(this.props.lists);
-        
+    getMailchimpListNames() {
+        if (this.props.lists && mailchimpLists.length === 0) {
+            for (let index = 0; index < (this.props.lists).length; index++) {
+                mailchimpLists.push(this.props.lists[index].name);
+            }
+            console.log(mailchimpLists);
+            this.compareLists();
+        }
     }
 
-    compareStudentsOnList () {
+    compareLists() {
+        let notOnMailchimp = [];
+        if (this.props.sessions && mailchimpLists) {
+            for (let index = 0; index < (this.props.sessions).length; index++) {
+                if (!mailchimpLists.includes(this.props.sessions[index])) {
+                    notOnMailchimp.push(this.props.sessions[index])
+                }
+            }
+            this.setState({
+                listsToAdd: this.state.listsToAdd.concat([notOnMailchimp])
+            });
+        }
+
+    }
+
+    compareStudentsOnList() {
         console.log(this.props.students);
     }
 
-    addList() {
+    buildLists(lists) {
+        let allLists = [];
+        if (lists) {
+            lists.forEach(list => {
+                allLists.push(<p>Name of List: {list} </p>);
+                allLists.push(<button onClick={() => this.addList(list)}> Add List </button>);
+            });
+            return (allLists)
+        } else {
+            return (<h1>Lists Up to Date</h1>)
+        }
+    }
 
+    addList(list) {
+        console.log("clicked!")
+        console.log(list);
+        // can't make a new list here have to make a new segment of the awaken pittsburgh list
     }
 
     componentDidUpdate() {
-        this.compareLists();
+        this.getMailchimpListNames();
     }
 
-    
-render() {
 
-    return (
-        <React.Fragment>
-            <button onclick="addList()"> Add this List</button>
-        </React.Fragment>
-    );
+    render() {
+        let displayLists = []
+        displayLists = this.state.listsToAdd.map(this.buildLists);
 
-}
+        return (
+            <React.Fragment>
+                {displayLists}
+            </React.Fragment>
+        );
+
+    }
 }
 export default EmailLists;
