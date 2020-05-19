@@ -217,7 +217,7 @@ class MailChimp extends React.Component {
               ]
           }
         };
-    fetch(mailchimpURI + "campaigns?apikey=" + mailchimpAPIKey, requestOptions)
+    fetch(CORS + mailchimpURI + "Campaigns?apikey=" + mailchimpAPIKey, requestOptions)
       .then(response => {
         return response.json();
       })
@@ -250,7 +250,6 @@ class MailChimp extends React.Component {
   }
 
   render (){
-    let display = [];
     let displayEmailList = [];
     let displayTemplateList = [];
 
