@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import AirTable from './airtable';
-import MailChimp from './mailchimp'
+import Forms from './forms';
+import MailChimp from './mailchimp';
 
 class App extends React.Component {
   constructor(props) {
@@ -79,6 +80,12 @@ class App extends React.Component {
             <li class="nav-item">
               <a class="nav-link" href="#">Update Database <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" href="https://airtable.com/shrVoz4cB6SRNNXlP">New Class Form </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" href="https://airtable.com/shrl6KxlCARZdJMlE">New Teacher Form </a>
+            </li>
            </ul>
         </div>
       </nav>
@@ -101,11 +108,12 @@ class App extends React.Component {
                 {/* { listOfEmailTemplates} */}
             </select>
         </form>
-
+        </div>
+        <div>
+        <Forms/>
         </div>
       </body>  
     </div>
-
   );
   }
 }

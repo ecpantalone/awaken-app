@@ -12,6 +12,7 @@ AirtableVar.configure({
     apiKey: 'keyn1hpKbx5jhKY7i'
 });
 const base = AirtableVar.base('appfQdjvtsNvuwzHF');
+
 let sessionsList = [];
 let studentsList = [];
 
@@ -24,7 +25,7 @@ class AirTable extends React.Component {
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
-        this.displaySessions = this.displaySessions.bind(this);
+        this.buildSessions = this.buildSessions.bind(this);
 
     }
     
