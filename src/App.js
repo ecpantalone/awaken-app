@@ -8,13 +8,9 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      emailTemplateLists: ["emailA", "emailB"],
       sessions:["session 1", "session 2"]    
     }
-    
-    this.loadEmails = this.loadEmails.bind(this);
-    this.loadSessions = this.loadSessions.bind(this);
-    this.emailListGenerator = this.emailListGenerator.bind(this);
+
     this.sessionListGenerator = this.sessionListGenerator.bind(this);
     //this.state = {
     //
@@ -24,33 +20,17 @@ class App extends React.Component {
   
   componentDidMount()
   {
-    this.loadEmails();
-    this.loadSessions()
-    console.log(this.state.movies);
+    
+    console.log("let's see if this pops up");
   }
 
-  loadEmails(){
-      // "Connect" this to the mailchimp.js file
-    return "";
-  }
-
-  loadSessions(){
-    console.log(this.props.getSessions)
-    return "";
-  }
-
-  emailListGenerator(email){
-    return (<option value={email}>{email}</option>);
-  }
   sessionListGenerator(session){
     return (<option value={session}>{session}</option>);
   }
 
   render() {
-  let listOfEmailTemplates = [];
   let listOfSessions = [];
 
-  listOfEmailTemplates = this.state.emailTemplateLists.map(this.emailListGenerator);
   listOfSessions = this.state.sessions.map(this.sessionListGenerator);
 
 
@@ -95,13 +75,11 @@ class App extends React.Component {
         {/* Drop Down Menu Test for Email Templates in Mailchimp */}
         <form action="/" class="menu box">
             <label for="template">Choose an email template:</label>
-            <select id="template" name="emails">
-                {  <MailChimp/> } // john knows how to fix this... we have a server issue
-
-                {/* { listOfEmailTemplates} */}
-            </select>
+            <select id="template" name="emails"> {  <MailChimp mode = "templateList"/> }</select>
+            <br></br>
+            <label for="list">Choose an email list:</label>
+            <select id="list" name="lists">{  <MailChimp mode = "emailList" /> }</select>  
         </form>
-
         </div>
       </body>  
     </div>
