@@ -82,11 +82,15 @@ class MailChimp extends React.Component {
 
   }
 
-  createCampaign()
+  createCampaign(e)
   {
+    e.preventDefault();
+    const form = e.target;
+    //const data = new FormData(form);
+
     console.log("in createCampaign");
-    if(!this.state.campaignSent)
-    {
+    // if(!this.state.campaignSent)
+    // {
     console.log("I'm in the createCampaign function.");
 
     var myHeaders = new Headers();
@@ -105,8 +109,20 @@ class MailChimp extends React.Component {
           "list_id":"5daa72e500",
           "list_is_active":true,
           "list_name":"Awaken Pittsburgh",
-          "segment_text":"","recipient_count":16
-        },
+          "segment_text":"","recipient_count":16,
+          "segment_opts": {
+                    "saved_segment_id": 675324,
+                    "match": "any",
+                    "conditions": [
+                        {
+                            "condition_type": "StaticSegment",
+                            "field": "static_segment",
+                            "op": "static_is",
+                            "value": 675324
+                        }
+                    ]
+                }
+              },
           "settings": {
             "subject_line":"You are now enrolled in Test Add!",
             "preview_text":"Classes start on ",
@@ -126,9 +142,9 @@ class MailChimp extends React.Component {
     fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/Campaigns", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
-      .then(this.setState({campaignSent: true}))
+      // .then(this.setState({campaignSent: true}))
       .catch(error => console.log('error', error));
-    }
+    // }
   }
 
   getListSegments()
@@ -187,23 +203,20 @@ class MailChimp extends React.Component {
     return(
       <div className = "menu">
       {/* Drop Down Menu Test for Classes from Airtable */}
-      <form action="/" className="menu box">
+      <form className="menu box">
           <label htmlFor="class">Choose a class that you want to email from Airtable:</label>
           <select id="class" name="classes">
               {/* these options should be generated based on what we have in Airtable */}
           </select>
       </form>
       {/* Drop Down Menu Test for Email Templates from Mailchimp */}
-      <form action="/" className="menu box">
+      <form onSubmit={this.createCampaign} className="menu box">
           <label htmlFor="template">Choose an email template from MailChimp:</label>
           <select id="template" name="emails"> { displayTemplateList}</select>
           <br></br>
           <label htmlFor="list">Choose an email list from MailChimp:</label>
           <select id="list" name="lists">{ displayEmailList }</select>
-          {/*  we want to get that template and list and add it together to make a campaign (in POST/campaign)*/}
-          {/*<button onClick={() => this.createNewSessionList(list)}> Add List </button>*/}
-          {/* <input type="submit" key="submit" value={this.state.Submit} onClick={() => this.createCampaign()}></input>   */}
-          <input type="submit" key="submit" value={this.state.Submit} onClick={this.createCampaign()}></input>  
+          <button>SUBMIT</button>
       </form>
       </div>
     );
