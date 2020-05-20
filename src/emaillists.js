@@ -85,12 +85,12 @@ class EmailLists extends React.Component {
 
             let raw = JSON.stringify(
                 {
-                    "email_address": "anactualperson@gmail.com",
-                    // tags: "test tag",
+                    "email_address": email,
+                    // "tags": {list},
                     "status": "subscribed",
                     merge_fields: {
-                        FNAME: "Real",
-                        LNAME: "Last Test"
+                        FNAME: firstName,
+                        LNAME: lastName
                     }
 
                 });
