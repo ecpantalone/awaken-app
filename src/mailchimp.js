@@ -85,13 +85,16 @@ class MailChimp extends React.Component {
   createCampaign(e)
   {
     e.preventDefault();
+    console.log(e);
+    console.log( "- - -- - - - - -  - - - - - ");
+    console.log(e.target[0][0].value);
+    let templateChoice = parseInt(e.target[0].value);
+    let segmentChoice = parseInt(e.target[1].value);
+     // e.target.templateList.template.value
+    // e.target.emailList.list.value
+
     const form = e.target;
     //const data = new FormData(form);
-
-    console.log("in createCampaign");
-    // if(!this.state.campaignSent)
-    // {
-    console.log("I'm in the createCampaign function.");
 
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
@@ -102,33 +105,35 @@ class MailChimp extends React.Component {
         "id":"",
         "type":"regular",
         "create_time":"2020-05-14T14:15:19+00:00",
-        "emails_sent":0,
-        "send_time":"",
+        "send_time":"2020-05-20T19:57:26+00:00",
         "content_type":"html",
         "recipients": {
           "list_id":"5daa72e500",
           "list_is_active":true,
           "list_name":"Awaken Pittsburgh",
-          "segment_text":"","recipient_count":16,
+          "segment_text":"",
+          "recipient_count":16,
           "segment_opts": {
-                    "saved_segment_id": 675324,
-                    "match": "any",
-                    "conditions": [
-                        {
-                            "condition_type": "StaticSegment",
-                            "field": "static_segment",
-                            "op": "static_is",
-                            "value": 675324
-                        }
-                    ]
+            "saved_segment_id": segmentChoice,
+            "match": "any",
+            "conditions": [
+                {
+                    "condition_type": "StaticSegment",
+                    "field": "static_segment",
+                    "op": "static_is",
+                    "value": segmentChoice
                 }
-              },
+              ]
+            }
+          },
           "settings": {
             "subject_line":"You are now enrolled in Test Add!",
-            "preview_text":"Classes start on ",
             "title":"How Many Times Does This Happen???????",
             "from_name":"Awaken Pittsburgh",
-            "reply_to":"awakenprjct@gmail.com"
+            "reply_to":"awakenprjct@gmail.com",
+            "to_name": "*|FNAME|*",
+            "authenticate": true,
+            "template_id": templateChoice,
           }
         });
   
@@ -178,12 +183,12 @@ class MailChimp extends React.Component {
   
   buildTemplate(template)
   {
-    return (<option value={template.id} key={template.id}>{template.name}</option>)
+    return (<option name="template" value={template.id} key={template.id}>{template.name}</option>)
   }
 
   buildList(list)
   {
-    return (<option value={list.id} key={list.id}>{list.name}</option>)
+    return (<option name="list" value={list.id} key={list.id}>{list.name}</option>)
   }
 
   render ()
@@ -196,9 +201,11 @@ class MailChimp extends React.Component {
     }
       
     if (!this.state.emailIsLoading){
-      displayEmailList = this.state.lists.map(this.buildList);
+      displayEmailList = this.state.segments.map(this.buildList);
     }
     
+    // e.target.templateList.template.value
+    // e.target.emailList.list.value
 
     return(
       <div className = "menu">
@@ -212,12 +219,33 @@ class MailChimp extends React.Component {
       {/* Drop Down Menu Test for Email Templates from Mailchimp */}
       <form onSubmit={this.createCampaign} className="menu box">
           <label htmlFor="template">Choose an email template from MailChimp:</label>
-          <select id="template" name="emails"> { displayTemplateList}</select>
+          <select id="templateList" name="templateList"> { displayTemplateList}</select>
           <br></br>
           <label htmlFor="list">Choose an email list from MailChimp:</label>
-          <select id="list" name="lists">{ displayEmailList }</select>
+          <select id="emailList" name="emailList">{ displayEmailList }</select>
           <button>SUBMIT</button>
       </form>
+
+      
+      <div>{/* Subject line generator - Currently not fully implemented but this is a good direction to connect to MailChimp Campaigns. */}
+        <form>
+        <label for="subjectLine">Subject Line:</label><br/>
+        <input name="subjectLine" id="subjectLine" list="subjectLines"/>
+        </form> 
+
+        <datalist id="subjectLines">
+        <option>Spring Meditations</option>
+        <option>Yellow</option> 
+        <option>Blue</option> 
+        <option>Week 2:</option> 
+        <option>Orange</option> 
+        <option>Purple</option> 
+        <option>Black</option> 
+        <option>White</option> 
+        <option>Gray</option> 
+        </datalist>
+      </div>
+      
       </div>
     );
   }
