@@ -203,7 +203,7 @@ class MailChimp extends React.Component {
           {/*  we want to get that template and list and add it together to make a campaign (in POST/campaign)*/}
           {/*<button onClick={() => this.createNewSessionList(list)}> Add List </button>*/}
           {/* <input type="submit" key="submit" value={this.state.Submit} onClick={() => this.createCampaign()}></input>   */}
-          <input type="submit" key="submit" value={this.state.Submit} onClick={this.createCampaign()}></input>  
+          {/* <input type="submit" key="submit" value={this.state.Submit} onClick={this.createCampaign()}></input>   */}
       </form>
       </div>
     );

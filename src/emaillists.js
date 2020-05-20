@@ -68,9 +68,6 @@ class EmailLists extends React.Component {
     }
 
     createNewSessionList(list) {
-        const CORS = "http://localhost:8080/";
-        const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
-        const mailchimpURI = "us18.api.mailchimp.com/3.0/";
         console.log("clicked!")
         console.log(this.props.students[list]);
         this.props.students[list].forEach(student => {
@@ -86,7 +83,7 @@ class EmailLists extends React.Component {
             let raw = JSON.stringify(
                 {
                     "email_address": email,
-                    // "tags": {list},
+                    "tags": [list],
                     "status": "subscribed",
                     merge_fields: {
                         FNAME: firstName,
