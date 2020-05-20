@@ -70,46 +70,50 @@ class EmailLists extends React.Component {
     createNewSessionList(list) {
         const CORS = "http://localhost:8080/";
         const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
-        const mailchimpURI = "https://us18.api.mailchimp.com/3.0/";
+        const mailchimpURI = "us18.api.mailchimp.com/3.0/";
         console.log("clicked!")
         console.log(this.props.students[list]);
         this.props.students[list].forEach(student => {
+
             let email = student['EmailAddress']
             let firstName = student['FirstName']
             let lastName = student['LastName']
             console.log(email)
-            console.log(firstName)
-            console.log(lastName)
-        
-        // can't make a new list here have to make a new segment of the awaken pittsburgh list
-        // let requestOptions = {
-        //     method: 'POST',
-        //     headers: new Headers ({
-        //       "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
-        //     }),
-        //     redirect: 'follow',
-        //     body:
-        //     {
-        //       email_address: email,
-        //       tags: list,
-        //     }
-        //   };
-      
-        //   fetch(CORS + mailchimpURI + "/lists/5daa72e500/members?apikey=" + mailchimpAPIKey, requestOptions)
-        //     .then(response => {
-        //        console.log(response);
-        //       return response.json();
-        //     })
-        //     .then(jsonData => {
-        //       console.log(response);
-        //       this.setState({
-        //         campaigns: jsonData.campaigns,
-        //         campaignSent: true
-        //       });
-        //     })
-        //     .catch(error => console.log('error', error));
+            let requestOptions = {
+                method: 'POST',
+                headers: new Headers({
+                    "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
+                }),
+                redirect: 'follow',
+                body:
+                {
+                    email_address: "testingemail@gmail.com",
+                    tags: "test tag",
+                    status: "subscribed",
+                    merge_fields: {
+                        FNAME: "First Test",
+                        LNAME: "Last Test"
+                    }
+                }
+            };
+
+            fetch(CORS + mailchimpURI + "lists/5daa72e500/members?apikey=" + mailchimpAPIKey, requestOptions)
+                .then(response => {
+                    console.log(response);
+                    return response.json();
+                })
+                .then(jsonData => {
+                    // console.log(response);
+                    //   this.setState({
+                    //     campaigns: jsonData.campaigns,
+                    //     campaignSent: true
+                    //   });
+                })
+                .catch(error => console.log('error', error));
         });
-    }
+
+
+    }      
 
     componentDidUpdate() {
         this.getMailchimpListNames();
