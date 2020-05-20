@@ -68,52 +68,47 @@ class EmailLists extends React.Component {
     }
 
     createNewSessionList(list) {
-        // const CORS = "http://localhost:8080/";
-        // const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
-        // const mailchimpURI = "us18.api.mailchimp.com/3.0/";
+        const CORS = "http://localhost:8080/";
+        const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
+        const mailchimpURI = "us18.api.mailchimp.com/3.0/";
         console.log("clicked!")
         console.log(this.props.students[list]);
-        // this.props.students[list].forEach(student => {
+        this.props.students[list].forEach(student => {
 
-        //     let email = student['EmailAddress']
-        //     let firstName = student['FirstName']
-        //     let lastName = student['LastName']
-        //     console.log(email)
-        //     let requestOptions = {
-        //         method: 'POST',
-        //         headers: new Headers({
-        //             "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
-        //         }),
-        //         redirect: 'follow',
-        //         body:JSON.stringify(
-        //         {
-        //             "email_address": "anactualperson@gmail.com",
-        //             // tags: "test tag",
-        //             "status": "subscribed",
-        //             // merge_fields: {
-        //             //     FNAME: "First Test",
-        //             //     LNAME: "Last Test"
-        //             // }
-        //         })
-        //     };
+            let email = student['EmailAddress']
+            let firstName = student['FirstName']
+            let lastName = student['LastName']
+            console.log(email)
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+            myHeaders.append("Content-Type", "application/json");
 
-        //     fetch(CORS + mailchimpURI + "lists/5daa72e500/members?apikey=" + mailchimpAPIKey, requestOptions)
-        //         .then(response => {
-        //             console.log(response);
-        //             return response.json();
-        //         })
-        //         .then(jsonData => {
-        //              console.log(jsonData);
-        //             //   this.setState({
-        //             //     campaigns: jsonData.campaigns,
-        //             //     campaignSent: true
-        //             //   });
-        //         })
-        //         .catch(error => console.log('error', error));
-        // });
+            let raw = JSON.stringify(
+                {
+                    "email_address": "anactualperson@gmail.com",
+                    // tags: "test tag",
+                    "status": "subscribed",
+                    merge_fields: {
+                        FNAME: "Real",
+                        LNAME: "Last Test"
+                    }
 
+                });
 
-    }      
+            let requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/5daa72e500/members", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        }
+        );
+}      
 
     componentDidUpdate() {
         this.getMailchimpListNames();
