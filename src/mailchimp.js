@@ -86,48 +86,87 @@ class MailChimp extends React.Component {
     if(!this.state.campaignSent)
     {
     console.log("I'm in the createCampaign function.");
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+    myHeaders.append("Content-Type", "application/json");
+    
+    let raw = JSON.stringify(
+      {
+        "id":"",
+        "type":"regular",
+        "create_time":"2020-05-14T14:15:19+00:00",
+        "emails_sent":0,
+        "send_time":"",
+        "content_type":"html",
+        "recipients": {
+          "list_id":"5daa72e500",
+          "list_is_active":true,
+          "list_name":"Awaken Pittsburgh",
+          "segment_text":"","recipient_count":16
+        },
+          "settings": {
+            "subject_line":"You are now enrolled in Test Add!",
+            "preview_text":"Classes start on ",
+            "title":"Test Add - Added from Airtable",
+            "from_name":"Awaken Pittsburgh",
+            "reply_to":"awakenprjct@gmail.com"
+          }
+        });
   
     let requestOptions = {
       method: 'POST',
-      headers: new Headers ({
-        "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
-      }),
-      redirect: 'follow',
-      body:
-      {
-        id: "",
-        type: "regular",
-        emails_sent: 0,
-        send_time: "",
-        content_type: "html",
-        recipients: {
-            list_id: "5daa72e500",
-            list_is_active: true,
-            list_name: "Awaken Pittsburgh",
-            segment_text: "",
-            recipient_count: 16
-        },
-        settings: {
-            subject_line: "You are now enrolled in Test Add!",
-            preview_text: "Classes start on ",
-            title: "Test Add - Added from Airtable",
-            from_name: "Awaken Pittsburgh",
-            reply_to: "awakenprjct@gmail.com"
-        }
-      }
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
     };
 
-    fetch(CORS + mailchimpURI + "Campaigns" + requestOptions)
-      .then(response => {
-        return response.json();
-      })
-      .then(jsonData => {
-        this.setState({
-          campaigns: jsonData.campaigns,
-          campaignSent: true
-        });
-      })
+    // let requestOptions = {
+    //   method: 'POST',
+    //   redirect: 'follow',
+    //   body: JSON.stringify(
+    //   {
+    //     id: "",
+    //     type: "regular",
+    //     emails_sent: 0,
+    //     send_time: "",
+    //     content_type: "html",
+    //     recipients: {
+    //         list_id: "5daa72e500",
+    //         list_is_active: true,
+    //         list_name: "Awaken Pittsburgh",
+    //         segment_text: "",
+    //         recipient_count: 16
+    //     },
+    //     settings: {
+    //         subject_line: "You are now enrolled in Test Add!",
+    //         preview_text: "Classes start on ",
+    //         title: "Test Add - Added from Airtable",
+    //         from_name: "Awaken Pittsburgh",
+    //         reply_to: "awakenprjct@gmail.com"
+    //     }
+    //   })
+    // };
+
+    fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/Campaigns", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
       .catch(error => console.log('error', error));
+    // fetch(CORS + mailchimpURI + "Campaigns" + requestOptions, { 
+    //   headers: new Headers ({
+    //   "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
+    //   })
+    // })
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(jsonData => {
+    //     this.setState({
+    //       campaigns: jsonData.campaigns,
+    //       campaignSent: true
+    //     });
+    //   })
+    //   .catch(error => console.log('error', error));
 
   }
 }
