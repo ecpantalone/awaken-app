@@ -90,7 +90,7 @@ class MailChimp extends React.Component {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
     myHeaders.append("Content-Type", "application/json");
-    
+
     let raw = JSON.stringify(
       {
         "id":"",
@@ -108,7 +108,7 @@ class MailChimp extends React.Component {
           "settings": {
             "subject_line":"You are now enrolled in Test Add!",
             "preview_text":"Classes start on ",
-            "title":"Test Add - Added from Airtable",
+            "title":"How Many Times Does This Happen???????",
             "from_name":"Awaken Pittsburgh",
             "reply_to":"awakenprjct@gmail.com"
           }
