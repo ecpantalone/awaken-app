@@ -16,18 +16,19 @@ class MailChimp extends React.Component {
       campaignSent: false,
       templates: [],
       lists: [],
-      Submit: false
+      Submit: false,
+      segments: [],
     }
 
     // bind things here
     this.getTemplates = this.getTemplates.bind(this);
     this.getEmailLists = this.getEmailLists.bind(this);
     this.createCampaign = this.createCampaign.bind(this);
+    this.getListSegments = this.getListSegments.bind(this);
     this.buildTemplate = this.buildTemplate.bind(this);
     this.buildList = this.buildList.bind(this);
 
   }
-
 
   getTemplates()
   {
@@ -75,7 +76,7 @@ class MailChimp extends React.Component {
           emailIsLoading: false
         });
         console.log(this.state.lists);
-
+        this.props.callbackForLists(this.state.lists);
       })
       .catch(error => console.log('error', error));
 
@@ -127,13 +128,36 @@ class MailChimp extends React.Component {
       .then(result => console.log(result))
       .then(this.setState({campaignSent: true}))
       .catch(error => console.log('error', error));
+    }
   }
-}
 
+  getListSegments()
+  {
+  let myHeaders = new Headers();
+
+  let requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+ fetch(CORS + mailchimpURI + "/lists/5daa72e500/segments?apikey=" + mailchimpAPIKey, requestOptions)
+    .then(response => {
+      return response.json();
+    })
+    .then(jsonData => {
+      console.log(jsonData);  
+      this.setState({
+        segments: jsonData.segments
+      });
+      this.props.callbackForSegments(this.state.segments);})
+  }
+  
   componentDidMount()
   {
-     this.getTemplates();
-     this.getEmailLists();
+    this.getTemplates();
+    this.getEmailLists();
+    this.getListSegments();
   }
   
   buildTemplate(template)
@@ -146,7 +170,8 @@ class MailChimp extends React.Component {
     return (<option value={list.id} key={list.id}>{list.name}</option>)
   }
 
-  render (){
+  render ()
+  {
     let displayEmailList = [];
     let displayTemplateList = [];
 
@@ -182,7 +207,6 @@ class MailChimp extends React.Component {
       </form>
       </div>
     );
-    
   }
 }
 
