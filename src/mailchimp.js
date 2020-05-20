@@ -3,7 +3,7 @@ import './App.css';
 
 // these need to go into an .env file and be gitignored
 const CORS = "http://localhost:8080/";
-const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
+const mailchimpAPIKey = "f26e6c766b57d6e61e8a24868b66a07b-us18";
 const mailchimpURI = "https://us18.api.mailchimp.com/3.0/";
 
 class MailChimp extends React.Component {
@@ -31,11 +31,11 @@ class MailChimp extends React.Component {
 
   getTemplates()
   {
+    let myHeaders = new Headers();
+  
     let requestOptions = {
       method: 'GET',
-      headers: new Headers ({
-        "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
-      }),
+      headers: myHeaders,
       redirect: 'follow'
     };
 
@@ -56,11 +56,11 @@ class MailChimp extends React.Component {
 
   getEmailLists()
   {
+    let myHeaders = new Headers();
+  
     let requestOptions = {
       method: 'GET',
-      headers: new Headers ({
-        "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
-      }),
+      headers: myHeaders,
       redirect: 'follow'
     };
 
@@ -97,7 +97,6 @@ class MailChimp extends React.Component {
       {
         id: "",
         type: "regular",
-        create_time: "2020-05-14T14:15:19+00:00",
         emails_sent: 0,
         send_time: "",
         content_type: "html",
@@ -118,13 +117,11 @@ class MailChimp extends React.Component {
       }
     };
 
-    fetch(CORS + mailchimpURI + "Campaigns?apikey=" + mailchimpAPIKey, requestOptions)
+    fetch(CORS + mailchimpURI + "Campaigns" + requestOptions)
       .then(response => {
-        // console.log(response);
         return response.json();
       })
       .then(jsonData => {
-        // console.log(response);
         this.setState({
           campaigns: jsonData.campaigns,
           campaignSent: true
