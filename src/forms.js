@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.js';
 import './App.css';
-import request from 'request';
+// import request from 'request';
+import Newstudent from './newstudent.js'
 
 // need to run "npm install airtable" in the console
-// New  Branch created for Forms
 
 const AirtableVar = require('airtable');
 AirtableVar.configure({
@@ -13,73 +13,34 @@ AirtableVar.configure({
 });
 const base = AirtableVar.base('appfQdjvtsNvuwzHF');
 
-//let sessionsList = [];
-let studentsList = [];
+let studentsList = []; // Currently used to store all the student email addresses from airtable.
 
 class Forms extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            // sessions: [],
-            name: "",
-            email: "",
-            studentsInfo: []
+            email: "", // The email the user types in to be checked against the database.
+            studentsInfo: [], //new array for student emails when transferred from studentsList
+            displayForm: false, // Controls if the new student form is displayed when an email is checked
+            confirmedDup: false //displays "this is a duplicate email" only when we have confirmed a dup, not upon page load
         };
-        //this.getSessions = this.getSessions.bind(this);
+        
         this.getStudents = this.getStudents.bind(this);
-        //this.buildSessions = this.buildSessions.bind(this);
         this.checkDups = this.checkDups.bind(this);
+        this.showForm = this.showForm.bind(this);
 
     }
     
+    //loads student emails into an array upon page load
     componentDidMount() {
-        console.log("inside of component did mount");
         this.getStudents();
         this.setState({studentsInfo: studentsList});
      }
 
-    // getSessions() {
-    //     base('Session').select({
-    //         view: "Grid view"
-    //     }).eachPage(function page(records, fetchNextPage) {
-
-    //         records.forEach(function (record) {
-    //             sessionsList.push(record.get('Session'));
-    //             console.log("inside of get sessions");
-    //         });
-    //         fetchNextPage();
-
-    //     }, function done(err) {
-    //         if (err) { console.error(err); return; }
-    //     });
-
-        
-    // }
-
-
-    // this function needs to be called by a selection on the dropdown list in the main app
-    // getStudents(sessionid) {
-    //     base('Students').select({
-    //         view: sessionid // this is the name of the view i.e. "Grid View" for all students "Session X" for a single session
-    //     }).eachPage(function page(records, fetchNextPage) {
-        
-    //         records.forEach(function(record) {
-    //             studentsList.push(record.get('EmailAddress'));
-    //         });
-    //         fetchNextPage();
-        
-    //     }, function done(err) {
-    //         if (err) { console.error(err); return; }
-    //     });
-    // }
 
     getStudents(){
-        let fullName = ""
-        // base('Students').find('testing@gmail.com', function(err, record) {
-        //     if (err) { console.error(err); return; }
-        //     console.log('Retrieved', record.id);
-        //     return record.EmailAddress;
+        // This code came from the Airtable API docs
         base('Students').select({
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
@@ -90,7 +51,6 @@ class Forms extends React.Component {
                 studentsList.push(record.get('EmailAddress'));
             });
             
-            console.log("this is studentsList in getStudents " + studentsList);
             // To fetch the next page of records, call `fetchNextPage`.
             // If there are more records, `page` will get called again.
             // If there are no more records, `done` will get called.
@@ -99,47 +59,44 @@ class Forms extends React.Component {
         }, function done(err) {
             if (err) { console.error(err); return; }
         });
-        //this.setState({studentsInfo: studentsList});
-    }
-
-    checkDups(){
-        //this.getStudents();
-        //this.setState({studentsInfo: studentsList});
-        console.log("I'm in CheckDups! The email you've typed is " + this.state.email)
-        console.log("This is student info: " + this.state.studentsInfo);
-        this.state.studentsInfo.forEach((studentInfo) => 
-        {
-            if (studentInfo === this.state.email) {
-                console.log("NO it's a DUP!")
-            } 
-            else{
-                console.log("All good")
-                }
-            
-        });
     }
     
-        
-
-    // buildSessions(session) {
-    //     console.log("inside of session list generator");
-    //     return (<option value={session}>{session}</option>);
-    // }
+    //this function is called on clicking Check Email button and looks for emails in the database that match what the user input
+    checkDups(){
+        let dup = false;
+        // Loop to check all emails in studentsInfo
+        this.state.studentsInfo.forEach((studentInfo) => 
+        {
+            if (studentInfo === this.state.email) { 
+                dup = true;
+                this.setState({confirmedDup: true});
+            }             
+        });
+        if (dup === false) {
+            this.setState({displayForm: true}); //set the state to show the New Student form
+            this.setState({ email: "" }) //set email string back to blank
+        }
+        else {
+           this.setState({displayForm: false});
+        }
+    }
+    
+    //this function is called in the render and will display based on the variables set in checkDups
+    showForm(){
+        let newstudent = "";
+        if (this.state.displayForm === true){
+            newstudent = <div>Please enter new student in the form below.<div></div><Newstudent/></div>
+        }
+        if (this.state.displayForm === false && this.state.confirmedDup === true){
+            newstudent = <div>This is a duplicate. Please update in Airtable.</div>
+        }
+        return newstudent;
+    }
 
     render() {
-        console.log("inside of render");
-        let typedEmail = ""
-        //console.log(this.state.sessions);
-       // let displaySessions = [];
-        //displaySessions = this.state.sessions.map(this.buildSessions);
         return (
+        <div>
         <form>
-        {/* <label> Name:
-        <input  type="text"
-                value={ this.state.name }
-                onChange={ e => this.setState({ name : e.target.value }) }/>
-        </label> */}
-
         <label> Email:
         <input  type="text"
             value={this.state.email}
@@ -148,27 +105,12 @@ class Forms extends React.Component {
         </label>
         <input type="button" onClick={() => {this.checkDups()}} value="Check Email" />
         </form>
-
-            //// Get the input field
-            // var input = document.getElementById("myInput");
-
-            // // Execute a function when the user releases a key on the keyboard
-            // input.addEventListener("keyup", function(event) {
-            //   // Number 13 is the "Enter" key on the keyboard
-            //   if (event.keyCode === 13) {
-            //     // Cancel the default action, if needed
-            //     event.preventDefault();
-            //     // Trigger the button element with a click
-            //     document.getElementById("myBtn").click();
-            //   }
-            // });
-            
-            // <React.Fragment>
-            //     {displaySessions}
-            // </React.Fragment>
+        <div>
+            {this.showForm()}
+        </div>
+        </div>
         );
     }
 
 }
-
 export default Forms;
