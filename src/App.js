@@ -108,9 +108,9 @@ class App extends React.Component {
                 {/* { listOfEmailTemplates} */}
             </select>
         </form>
-        </div>
         <div>
         <Forms/>
+        </div>
         </div>
       </body>  
     </div>

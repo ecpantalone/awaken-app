@@ -1,0 +1,111 @@
+// import React from 'react';
+// import './App.js';
+// import './App.css';
+// // import request from 'request';
+// import Forms from './forms.js'
+
+// // need to run "npm install airtable" in the console
+
+// const AirtableVar = require('airtable');
+// AirtableVar.configure({
+//     endpointUrl: 'https://api.airtable.com',
+//     apiKey: 'keyn1hpKbx5jhKY7i'
+// });
+// const base = AirtableVar.base('appfQdjvtsNvuwzHF');
+
+// let studentsList = []; // Currently used to store all the student email addresses from airtable.
+
+// class Formmenu extends React.Component {
+//     constructor(props) {
+//         super(props);
+
+//         this.state = {
+//             email: "", // The email the user types in to be checked against the database.
+//             studentsInfo: [], //new array for student emails when transferred from studentsList
+//             displayForm: false, // Controls if the new student form is displayed when an email is checked
+//             confirmedDup: false //displays "this is a duplicate email" only when we have confirmed a dup, not upon page load
+//         };
+        
+//         // this.getStudents = this.getStudents.bind(this);
+//         // this.checkDups = this.checkDups.bind(this);
+//         // this.showForm = this.showForm.bind(this);
+//         this.showNewStudent = this.showNewStudent.bind(this);
+
+//     }
+    
+//     //loads student emails into an array upon page load
+//     componentDidMount() {
+//         this.getStudents();
+//         this.setState({studentsInfo: studentsList});
+//      }
+
+
+//     getStudents(){
+//         // This code came from the Airtable API docs
+//         base('Students').select({
+//             view: "Grid view"
+//         }).eachPage(function page(records, fetchNextPage) {
+//             // This function (`page`) will get called for each page of records.
+        
+//             records.forEach(function(record) {
+//                 console.log('Retrieved', record.fields);
+//                 studentsList.push(record.get('EmailAddress'));
+//             });
+            
+//             // To fetch the next page of records, call `fetchNextPage`.
+//             // If there are more records, `page` will get called again.
+//             // If there are no more records, `done` will get called.
+//             fetchNextPage();
+        
+//         }, function done(err) {
+//             if (err) { console.error(err); return; }
+//         });
+//     }
+    
+//     // //this function is called on clicking Check Email button and looks for emails in the database that match what the user input
+//     // checkDups(){
+//     //     let dup = false;
+//     //     // Loop to check all emails in studentsInfo
+//     //     this.state.studentsInfo.forEach((studentInfo) => 
+//     //     {
+//     //         if (studentInfo === this.state.email) { 
+//     //             dup = true;
+//     //             this.setState({confirmedDup: true});
+//     //         }             
+//     //     });
+//     //     if (dup === false) {
+//     //         this.setState({displayForm: true}); //set the state to show the New Student form
+//     //         this.setState({ email: "" }) //set email string back to blank
+//     //     }
+//     //     else {
+//     //        this.setState({displayForm: false});
+//     //     }
+//     // }
+    
+//     // //this function is called in the render and will display based on the variables set in checkDups
+//     // showForm(){
+//     //     let newstudent = "";
+//     //     if (this.state.displayForm === true){
+//     //         newstudent = <div>Please enter new student in the form below.<div></div><Newstudent/></div>
+//     //     }
+//     //     if (this.state.displayForm === false && this.state.confirmedDup === true){
+//     //         newstudent = <div>This is a duplicate. Please update in Airtable.</div>
+//     //     }
+//     //     return newstudent;
+//     // }
+
+//     showNewStudent(){
+//         console.log("showNewStudent is being called");
+//         return (<div><Forms /></div>);
+//     }
+
+//     render() {
+//         return (
+//         <div>
+//             <button onClick={this.showNewStudent()}>Add Students</button>
+//         </div>
+//         );
+//     }
+
+// }
+// export default Formmenu;
