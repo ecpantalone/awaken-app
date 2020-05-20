@@ -3,7 +3,7 @@ import './App.js';
 import './App.css';
 import request from 'request';
 
-// need to run npm install airtable in the console
+// need to run "npm install airtable" in the console
 
 const AirtableVar = require('airtable');
 AirtableVar.configure({
@@ -11,60 +11,95 @@ AirtableVar.configure({
     apiKey: 'keyn1hpKbx5jhKY7i'
 });
 const base = AirtableVar.base('appfQdjvtsNvuwzHF');
-let sessionsList = [];
+let studentList = [];
 
 class AirTable extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-
+            sessions: [],
+            students: []
         }
-
         this.getSessions = this.getSessions.bind(this);
+        this.getStudents = this.getStudents.bind(this);
+        this.buildSession = this.buildSession.bind(this);
 
     }
-
+    
     getSessions() {
+        const self = this;
         base('Session').select({
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
 
             records.forEach(function (record) {
-                sessionsList.push(record.get('Session'));
-                console.log(sessionsList);
+                // add session to session state
+                self.setState({
+                    sessions: self.state.sessions.concat([record.get('Session')])
+                });
+                // run get students on each session
+                self.getStudents(record.get('Session'));
             });
-
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
             fetchNextPage();
 
         }, function done(err) {
+            // this passes data in session state to parent (app.js)
+            self.props.callbackForSessions(self.state.sessions);
             if (err) { console.error(err); return; }
         });
     }
 
-    // this function needs to be called by a selection on the dropdown list in the main app
-    getStudents(sessionid) {
+    getStudents(sessionview) {
+        let tempStudentList = [];
+        
+        const self = this;
+        
         base('Students').select({
-            view: sessionid
+            view: sessionview // this is the name of the view i.e. "Grid View" for all students "Session X" for a single session
         }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
-        
-            records.forEach(function(record) {
-                console.log('Retrieved', record.get('EmailAddress'));
+
+            records.forEach(function (record) {
+                // store temp studnt data in hash table i think?
+                let tempStudentData = {FirstName: record.get('FirstName'), LastName: record.get('LastName'), EmailAddress: record.get('EmailAddress')}
+                // add each chunk of student data to the student list
+                tempStudentList.push(tempStudentData);
             });
-        
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
             fetchNextPage();
-        
+
         }, function done(err) {
+            studentList[sessionview] = tempStudentList
+            self.setState({
+                students: studentList
+            });
+            
+            // this passes data in student lists state to parent (app.js)
+            self.props.callbackForStudents(self.state.students);
             if (err) { console.error(err); return; }
         });
+
+    }
+
+    componentDidMount() {
+        this.getSessions();
+    }
+
+    buildSession(s) {
+        return (<option value={s}>{s}</option>);
+    }
+
+    render() {
+        let displaySessions = [];
+        // console.log(this.state.sessions);
+        // console.log(this.state.students)
+        displaySessions = this.state.sessions.map(this.buildSession);
+
+        return (
+            <React.Fragment>
+                {displaySessions}
+            </React.Fragment>
+        );
+
     }
 
 }
