@@ -71,8 +71,8 @@ class EmailLists extends React.Component {
         // const CORS = "http://localhost:8080/";
         // const mailchimpAPIKey = "de3be56ee674cb1b6c68d16d40784d34-us18";
         // const mailchimpURI = "us18.api.mailchimp.com/3.0/";
-        // console.log("clicked!")
-        // console.log(this.props.students[list]);
+        console.log("clicked!")
+        console.log(this.props.students[list]);
         // this.props.students[list].forEach(student => {
 
         //     let email = student['EmailAddress']
