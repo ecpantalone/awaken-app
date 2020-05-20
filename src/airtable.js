@@ -11,6 +11,7 @@ AirtableVar.configure({
     apiKey: 'keyn1hpKbx5jhKY7i'
 });
 const base = AirtableVar.base('appfQdjvtsNvuwzHF');
+let studentList = [];
 
 class AirTable extends React.Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class AirTable extends React.Component {
 
         this.state = {
             sessions: [],
-            students: new Map()
+            students: []
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
@@ -67,9 +68,9 @@ class AirTable extends React.Component {
             fetchNextPage();
 
         }, function done(err) {
-            let newStudentList = {[sessionview]: tempStudentList}
+            studentList[sessionview] = tempStudentList
             self.setState({
-                students:[...self.state.students, newStudentList]
+                students: studentList
             });
             
             // this passes data in student lists state to parent (app.js)

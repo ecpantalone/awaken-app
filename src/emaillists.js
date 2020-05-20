@@ -28,7 +28,6 @@ class EmailLists extends React.Component {
             }
             console.log(mailchimpLists);
             this.compareLists();
-            console.log(this.props.students);
         }
     }
 
@@ -48,7 +47,11 @@ class EmailLists extends React.Component {
     }
 
     compareStudentsOnList() {
-        console.log(this.props.students);
+        if(this.props.students) {
+            console.log(this.props.students);
+            console.log(Object.keys(this.props.students))
+        }
+        
     }
 
     buildLists(lists) {
@@ -72,6 +75,7 @@ class EmailLists extends React.Component {
 
     componentDidUpdate() {
         this.getMailchimpListNames();
+        this.compareStudentsOnList();
     }
 
 
