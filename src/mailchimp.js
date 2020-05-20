@@ -83,6 +83,7 @@ class MailChimp extends React.Component {
 
   createCampaign()
   {
+    console.log("in createCampaign");
     if(!this.state.campaignSent)
     {
     console.log("I'm in the createCampaign function.");
@@ -124,6 +125,7 @@ class MailChimp extends React.Component {
     fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/Campaigns", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
+      .then(this.setState({campaignSent: true}))
       .catch(error => console.log('error', error));
   }
 }
@@ -132,7 +134,6 @@ class MailChimp extends React.Component {
   {
      this.getTemplates();
      this.getEmailLists();
-     this.createCampaign();
   }
   
   buildTemplate(template)
@@ -159,25 +160,24 @@ class MailChimp extends React.Component {
     
 
     return(
-      // <React.Fragment>
-      // {display}
-      // </React.Fragment>
       <div className = "menu">
-      {/* Drop Down Menu Test for Classes in Airtable */}
+      {/* Drop Down Menu Test for Classes from Airtable */}
       <form action="/" className="menu box">
-          <label htmlFor="class">Choose a class that you want to email:</label>
+          <label htmlFor="class">Choose a class that you want to email from Airtable:</label>
           <select id="class" name="classes">
               {/* these options should be generated based on what we have in Airtable */}
           </select>
       </form>
-      {/* Drop Down Menu Test for Email Templates in Mailchimp */}
+      {/* Drop Down Menu Test for Email Templates from Mailchimp */}
       <form action="/" className="menu box">
-          <label htmlFor="template">Choose an email template:</label>
+          <label htmlFor="template">Choose an email template from MailChimp:</label>
           <select id="template" name="emails"> { displayTemplateList}</select>
           <br></br>
-          <label htmlFor="list">Choose an email list:</label>
+          <label htmlFor="list">Choose an email list from MailChimp:</label>
           <select id="list" name="lists">{ displayEmailList }</select>
           {/*  we want to get that template and list and add it together to make a campaign (in POST/campaign)*/}
+          {/*<button onClick={() => this.createNewSessionList(list)}> Add List </button>*/}
+          {/* <input type="submit" key="submit" value={this.state.Submit} onClick={() => this.createCampaign()}></input>   */}
           <input type="submit" key="submit" value={this.state.Submit} onClick={this.createCampaign()}></input>  
       </form>
       </div>
