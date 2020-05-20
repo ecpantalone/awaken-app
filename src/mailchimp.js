@@ -1,8 +1,13 @@
-import React from 'react';
 import './App.css';
+import React from 'react';
+import "flatpickr/dist/themes/material_green.css";
+import Flatpickr from "react-flatpickr";
+import { Component } from "react";
+
 
 // these need to go into an .env file and be gitignored
 const CORS = "http://localhost:8080/";
+// const flatpickr = require("flatpickr");
 const mailchimpAPIKey = "f26e6c766b57d6e61e8a24868b66a07b-us18";
 const mailchimpURI = "https://us18.api.mailchimp.com/3.0/";
 
@@ -11,6 +16,7 @@ class MailChimp extends React.Component {
     super(props);
 
     this.state = {
+      date: new Date(),
       templatesIsLoading: true,
       emailIsLoading: true,
       campaignSent: false,
@@ -195,6 +201,7 @@ class MailChimp extends React.Component {
   {
     let displayEmailList = [];
     let displayTemplateList = [];
+    const { date } = this.state;
 
     if (!this.state.templatesIsLoading){
       displayTemplateList = this.state.templates.map(this.buildTemplate);
@@ -245,7 +252,15 @@ class MailChimp extends React.Component {
         <option>Gray</option> 
         </datalist>
       </div>
-      
+
+      <Flatpickr
+        data-enable-time
+        value={date}
+        onChange={date => {
+          this.setState({ date });
+        }}
+      />
+
       </div>
     );
   }
