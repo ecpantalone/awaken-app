@@ -121,53 +121,10 @@ class MailChimp extends React.Component {
       redirect: 'follow'
     };
 
-    // let requestOptions = {
-    //   method: 'POST',
-    //   redirect: 'follow',
-    //   body: JSON.stringify(
-    //   {
-    //     id: "",
-    //     type: "regular",
-    //     emails_sent: 0,
-    //     send_time: "",
-    //     content_type: "html",
-    //     recipients: {
-    //         list_id: "5daa72e500",
-    //         list_is_active: true,
-    //         list_name: "Awaken Pittsburgh",
-    //         segment_text: "",
-    //         recipient_count: 16
-    //     },
-    //     settings: {
-    //         subject_line: "You are now enrolled in Test Add!",
-    //         preview_text: "Classes start on ",
-    //         title: "Test Add - Added from Airtable",
-    //         from_name: "Awaken Pittsburgh",
-    //         reply_to: "awakenprjct@gmail.com"
-    //     }
-    //   })
-    // };
-
     fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/Campaigns", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-    // fetch(CORS + mailchimpURI + "Campaigns" + requestOptions, { 
-    //   headers: new Headers ({
-    //   "Authorization": `Basic ${new Buffer(`apikey:${mailchimpAPIKey}`).toString('base64')}`
-    //   })
-    // })
-    //   .then(response => {
-    //     return response.json();
-    //   })
-    //   .then(jsonData => {
-    //     this.setState({
-    //       campaigns: jsonData.campaigns,
-    //       campaignSent: true
-    //     });
-    //   })
-    //   .catch(error => console.log('error', error));
-
   }
 }
 
