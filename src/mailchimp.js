@@ -94,6 +94,11 @@ class MailChimp extends React.Component {
     console.log(e);
     console.log( "- - -- - - - - -  - - - - - ");
     console.log(e.target[0][0].value);
+    console.log(String(this.state.date));
+    // console.log((this.state.date).toISOString());
+    let time = (this.state.date).toISOString();
+    time = time.substring(0, time.length - 5) + "+00:00";
+    console.log(time);
     let templateChoice = parseInt(e.target[0].value);
     let segmentChoice = parseInt(e.target[1].value);
      // e.target.templateList.template.value
@@ -111,7 +116,7 @@ class MailChimp extends React.Component {
         "id":"",
         "type":"regular",
         "create_time":"2020-05-14T14:15:19+00:00",
-        "send_time":"2020-05-20T19:57:26+00:00",
+        "send_time":time,
         "content_type":"html",
         "recipients": {
           "list_id":"5daa72e500",
