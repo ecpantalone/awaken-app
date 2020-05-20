@@ -38,7 +38,7 @@ class App extends React.Component {
       lists: mailchimpLists
   });
   }
-
+// test comment for new branch
   mailchimpSegmentsCallback = (mailchimpSegments) => {
     this.setState({
       segments: mailchimpSegments
