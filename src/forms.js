@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.js';
 import './App.css';
-// import request from 'request';
-//import Newstudent from './newstudent.js'
 
 // need to run "npm install airtable" in the console
 
