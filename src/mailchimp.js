@@ -142,7 +142,7 @@ class MailChimp extends React.Component {
     redirect: 'follow'
   };
 
- fetch(CORS + mailchimpURI + "/lists/5daa72e500/segments?apikey=" + mailchimpAPIKey, requestOptions)
+ fetch(CORS + mailchimpURI + "/lists/5daa72e500/segments?count=1000&apikey=" + mailchimpAPIKey, requestOptions)
     .then(response => {
       return response.json();
     })

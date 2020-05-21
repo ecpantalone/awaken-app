@@ -2,8 +2,7 @@ import React from 'react';
 import './App.css';
 import AirTable from './airtable';
 import MailChimp from './mailchimp';
-import SessionCheck from './sessioncheck';
-import StudentCheck from './studentcheck';
+import UpdateMailchimp from './updatemailchimp';
 
 class App extends React.Component {
   constructor(props) {
@@ -69,10 +68,8 @@ class App extends React.Component {
     <div className="App">
     
       < MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback}/> 
-      <div class = "list">
-        {<SessionCheck sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
-        {<StudentCheck sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
-
+      <div class = "updater">
+        {<UpdateMailchimp sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
       </div>
 
       <div class = "menu">
