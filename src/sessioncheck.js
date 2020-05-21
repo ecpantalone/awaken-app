@@ -12,12 +12,12 @@ class SessionCheck extends React.Component {
 
         this.state = {
             sessionsToAdd: [],
-            studentsToAdd: []
         }
         this.getMailchimpSegments = this.getMailchimpSegments.bind(this);
         this.compareLists = this.compareLists.bind(this);
         this.buildLists = this.buildLists.bind(this);
         this.createNewSessionList = this.createNewSessionList.bind(this);
+        this.test = this.test.bind(this);
     }
 
     getMailchimpSegments() {
@@ -48,8 +48,7 @@ class SessionCheck extends React.Component {
         let allLists = [];
         if (lists) {
             lists.forEach(list => {
-                allLists.push(<p>Name of List: {list} </p>);
-                allLists.push(<button onClick={() => this.createNewSessionList(list)}> Add List </button>);
+                allLists.push(<p>Name of List: {list} <button onClick={() => this.createNewSessionList(list)}> Add List </button></p>);
             });
             return (allLists)
         } else {
@@ -73,7 +72,7 @@ class SessionCheck extends React.Component {
             let raw = JSON.stringify(
                 {
                     "email_address": email,
-                    "tags": [list],
+                    //"tags": [list],
                     "status": "subscribed",
                     merge_fields: {
                         FNAME: firstName,
@@ -96,6 +95,9 @@ class SessionCheck extends React.Component {
         }
         );
     }
+    test() {
+        console.log("hi")
+    }
 
     componentDidUpdate() {
         this.getMailchimpSegments();
@@ -104,9 +106,12 @@ class SessionCheck extends React.Component {
     render() {
         let displayLists = []
         displayLists = this.state.sessionsToAdd.map(this.buildLists);
+        console.log(this.state.sessionsToAdd)
 
         return (
             <div class="sessions-to-add">
+                <h3>There are {(this.state.sessionsToAdd).length} new sessions(s) that need to be added!</h3>
+                <button onClick={this.test}>Add All New Sessions</button>
                 {displayLists}
             </div>
         );
