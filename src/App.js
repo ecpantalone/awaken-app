@@ -3,6 +3,7 @@ import './App.css';
 import AirTable from './airtable';
 import Formmenu from './formmenu';
 import MailChimp from './mailchimp';
+import EmailLists from './emaillists';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,46 +11,53 @@ class App extends React.Component {
 
     this.state = {
       emailTemplateLists: ["emailA", "emailB"],
-      sessions: ["session 1", "session 2"], 
       showDB: false,
-      showEM: false
+      showEM: false, 
+      sessions: [],
+      students: [],
+      lists: [],
+      segments: []
     }
-    
-    this.loadEmails = this.loadEmails.bind(this);
-    this.loadSessions = this.loadSessions.bind(this);
-    this.emailListGenerator = this.emailListGenerator.bind(this);
-    this.sessionListGenerator = this.sessionListGenerator.bind(this);
-    //this.state = {
-    //
-    //};
-    //
+
+    this.airtableSessionsCallback = this.airtableSessionsCallback.bind(this);
+    this.airtableStudentsCallback = this.airtableStudentsCallback.bind(this);
+    this.mailchimpListsCallback = this.mailchimpListsCallback.bind(this);
+    this.mailchimpSegmentsCallback = this.mailchimpSegmentsCallback.bind(this);
   }
   
-  componentDidMount()
-  {
-    this.loadEmails();
-    this.loadSessions()
-    console.log(this.state.movies);
+  airtableSessionsCallback = (airtableSessions) => {
+    this.setState({
+      sessions: airtableSessions
+  });
   }
 
-  loadEmails(){
-      // "Connect" this to the mailchimp.js file
-    return "";
+  airtableStudentsCallback = (airtableStudents) => {
+    this.setState({
+      students: airtableStudents
+  });
   }
 
-  loadSessions(){
-    console.log(this.props.getSessions)
-    return "";
+  mailchimpListsCallback = (mailchimpLists) => {
+    this.setState({
+      lists: mailchimpLists
+  });
   }
 
-  emailListGenerator(email){
-    return (<option value={email}>{email}</option>);
+  mailchimpSegmentsCallback = (mailchimpSegments) => {
+    this.setState({
+      segments: mailchimpSegments
+  });
   }
-  sessionListGenerator(session){
-    return (<option value={session}>{session}</option>);
+
+  componentDidMount() {
+    this.airtableSessionsCallback();
+    this.airtableStudentsCallback();
+    this.mailchimpListsCallback();
+    this.mailchimpSegmentsCallback();
   }
 
   render() {
+
   let listOfEmailTemplates = [];
   let listOfSessions = [];
     
@@ -58,7 +66,6 @@ class App extends React.Component {
 
   listOfEmailTemplates = this.state.emailTemplateLists.map(this.emailListGenerator);
   listOfSessions = this.state.sessions.map(this.sessionListGenerator);
-
 
   return (
     <div>
