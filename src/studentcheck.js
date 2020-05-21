@@ -6,7 +6,6 @@ import MailChimp from './mailchimp';
 
 let mailchimpMembers = [];
 let notOnMailchimp = [];
-let doneRunning = false;
 
 class StudentCheck extends React.Component {
     constructor(props) {
@@ -18,7 +17,7 @@ class StudentCheck extends React.Component {
         this.getMailchimpMembers = this.getMailchimpMembers.bind(this);
         this.compareStudentsOnList = this.compareStudentsOnList.bind(this);
         this.buildStudentsToAdd = this.buildStudentsToAdd.bind(this);
-        this.createNewStudent = this.createNewStudent.bind(this)
+        this.addNewStudent = this.addNewStudent.bind(this)
     }
 
     getMailchimpMembers() {
@@ -66,20 +65,15 @@ class StudentCheck extends React.Component {
                     });
                     if (!emailOnList) {
                         console.log("student not on list");
+                        student.Session = session;
                         notOnMailchimp.push(student);
-                        console.log(notOnMailchimp)
                     }
                 });
             }
-        doneRunning = true;
-        console.log(doneRunning);
+            this.setState({
+                studentsToAdd: notOnMailchimp
+            })
         } // end of main if statement
-    }
-
-
-
-    addNewStudent(list) {
-
     }
 
     addTagToStudent () {
@@ -87,12 +81,47 @@ class StudentCheck extends React.Component {
     }
 
     buildStudentsToAdd(student) {
-        return(<p>Add: {student['FirstName']}
-        <button>add</button></p>)
+        return(<p><span>New Student in {student['Session']}: {student['FirstName']} </span> 
+        <span> <a onClick={() => this.addNewStudent(student)}>Add This Student</a></span></p>)
     }    
 
-    createNewStudent () {
+    addNewStudent(student) {
         console.log("clicked!")
+        console.log(student);
+
+        let email = student['EmailAddress']
+        let firstName = student['FirstName']
+        let lastName = student['LastName']
+        let session = student['Session']
+        console.log(email)
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify(
+            {
+                "email_address": email,
+                "tags": [session],
+                "status": "subscribed",
+                merge_fields: {
+                    FNAME: firstName,
+                    LNAME: lastName
+                }
+
+            });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/5daa72e500/members", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
     }
 
     componentDidUpdate() {
@@ -100,13 +129,10 @@ class StudentCheck extends React.Component {
     }
     
     render() {
+        console.log(this.state.studentsToAdd)
         let displayLists = []
-
-        if (doneRunning) {
-            displayLists = notOnMailchimp.map(this.buildStudentsToAdd);
-        }
+        displayLists = this.state.studentsToAdd.map(this.buildStudentsToAdd);
         
-
         return (
             <div>
                 {displayLists}
