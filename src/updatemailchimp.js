@@ -30,11 +30,21 @@ class UpdateMailchimp extends React.Component {
         // console.log("sessions", this.props.sessions);
          console.log("students", this.props.students);
         // console.log("lists", this.props.lists)
-        // console.log("segments", this.props.segments);
+         console.log("segments", this.props.segments);
         // console.log("members", this.props.members);
         // console.log("DATA LOG END")
        // this.getSegments();
         this.getMembers();
+        // if(this.props.segments){
+        //     for (let index = 0; index < this.props.segments.length; index++) {
+        //         console.log(this.props.segments[index]);
+        //         if(this.props.segments[index].name) {
+        //             console.log(this.props.segments[index].name)
+        //             console.log(this.props.segments[index].id)
+        //         }
+                
+        //     }
+        // }
     }
 
     // store segment names in variable for ease of access
@@ -176,10 +186,10 @@ class UpdateMailchimp extends React.Component {
                 console.log(untagged)
                 untagged.forEach(newTag => {
                     // console.log(newMember);
-                     this.addTagToStudent(newTag);
+                    this.addTagToStudent(newTag);
                 });
             }
-            console.log("not on list", notMailchimpMember);
+            // console.log("not on list", notMailchimpMember);
             console.log("untagged", untagged);
         } // end of main if statement
     }
@@ -226,16 +236,23 @@ class UpdateMailchimp extends React.Component {
     addTagToStudent (student) {
         console.log("clicked!");
         let session = student['Session'];
-        let endpoint = "http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/5daa72e500/members/" + student['id'] + "/tags"
+        let email = student['EmailAddress']
+        let segment;
+
+        for (let index = 0; index < this.props.segments.length; index++) {
+            if(this.props.segments[index].name === session) {
+                segment = this.props.segments[index].id
+            }
+            
+        }
+        console.log(segment)
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
         myHeaders.append("Content-Type", "application/json");
 
         let raw = JSON.stringify(
             {
-                "tags":[ {
-                    name: session
-                } ]
+                "email_address": email
             });
 
         let requestOptions = {
@@ -245,7 +262,7 @@ class UpdateMailchimp extends React.Component {
             redirect: 'follow'
         };
 
-        fetch(endpoint, requestOptions)
+        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/5daa72e500/segments/" + segment + "/members", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
