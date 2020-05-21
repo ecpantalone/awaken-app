@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import AirTable from './airtable';
 import MailChimp from './mailchimp';
-import EmailLists from './emaillists';
+import SessionCheck from './sessioncheck';
+import StudentCheck from './studentcheck';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,13 +13,15 @@ class App extends React.Component {
       sessions: [],
       students: [],
       lists: [],
-      segments: []
+      segments: [],
+      members: []
     }
 
     this.airtableSessionsCallback = this.airtableSessionsCallback.bind(this);
     this.airtableStudentsCallback = this.airtableStudentsCallback.bind(this);
     this.mailchimpListsCallback = this.mailchimpListsCallback.bind(this);
     this.mailchimpSegmentsCallback = this.mailchimpSegmentsCallback.bind(this);
+    this.mailchimpMembersCallback = this.mailchimpMembersCallback.bind(this);
   }
   
   airtableSessionsCallback = (airtableSessions) => {
@@ -38,10 +41,16 @@ class App extends React.Component {
       lists: mailchimpLists
   });
   }
-// test comment for new branch
+
   mailchimpSegmentsCallback = (mailchimpSegments) => {
     this.setState({
       segments: mailchimpSegments
+  });
+  }
+
+  mailchimpMembersCallback = (mailchimpMembers) => {
+    this.setState({
+      members: mailchimpMembers
   });
   }
 
@@ -50,6 +59,7 @@ class App extends React.Component {
     this.airtableStudentsCallback();
     this.mailchimpListsCallback();
     this.mailchimpSegmentsCallback();
+    this.mailchimpMembersCallback();
     }
 
   render() {
@@ -58,9 +68,11 @@ class App extends React.Component {
     
     <div className="App">
     
-      < MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} /> 
+      < MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback}/> 
       <div class = "list">
-        {<EmailLists sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} />}
+        {<SessionCheck sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
+        {<StudentCheck sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
+
       </div>
 
       <div class = "menu">

@@ -18,6 +18,7 @@ class MailChimp extends React.Component {
       lists: [],
       Submit: false,
       segments: [],
+      members:[]
     }
 
     // bind things here
@@ -45,12 +46,12 @@ class MailChimp extends React.Component {
         return response.json();
       })
       .then(jsonData => {
-        console.log(jsonData);
+        // console.log(jsonData);
         this.setState({
           templates: jsonData.templates, 
           templatesIsLoading: false
         });        
-        console.log(this.state.templates);
+        // console.log(this.state.templates);
       })
       .catch(error => console.log('error', error));
   }
@@ -70,12 +71,12 @@ class MailChimp extends React.Component {
         return response.json();
       })
       .then(jsonData => {
-        console.log(jsonData);
+       //  console.log(jsonData);
         this.setState({
           lists: jsonData.lists,
           emailIsLoading: false
         });
-        console.log(this.state.lists);
+        // console.log(this.state.lists);
         this.props.callbackForLists(this.state.lists);
       })
       .catch(error => console.log('error', error));
@@ -146,11 +147,39 @@ class MailChimp extends React.Component {
       return response.json();
     })
     .then(jsonData => {
-      console.log(jsonData);  
+      // console.log(jsonData);  
       this.setState({
         segments: jsonData.segments
       });
       this.props.callbackForSegments(this.state.segments);})
+  }
+
+  getListMembers()
+  {
+  let myHeaders = new Headers();
+  let raw = JSON.stringify(
+    {
+      "fields":"tags",
+        
+      });
+
+  let requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+    
+  };
+
+ fetch(CORS + mailchimpURI + "/lists/5daa72e500/members?count=1000&status=subscribed&apikey=" + mailchimpAPIKey, requestOptions)
+    .then(response => {
+      return response.json();
+    })
+    .then(jsonData => {
+      // console.log(jsonData);  
+      this.setState({
+        members: jsonData.members
+      });
+      this.props.callbackForMembers(this.state.members);})
   }
   
   componentDidMount()
@@ -158,6 +187,7 @@ class MailChimp extends React.Component {
     this.getTemplates();
     this.getEmailLists();
     this.getListSegments();
+    this.getListMembers();
   }
   
   buildTemplate(template)
