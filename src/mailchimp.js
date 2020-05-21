@@ -25,6 +25,7 @@ class MailChimp extends React.Component {
       Submit: false,
       subject: "Test",
       segments: [],
+      campaignId: ""
     }
 
     // bind things here
@@ -89,8 +90,109 @@ class MailChimp extends React.Component {
 
   }
 
+  // modifyCampaignStatus(e){
+  //   // we want this to be a patch of the latest campaign. 
+  //   // the id of this is available at this.state.id - createCampaign sets this state every time
+  //   // campaigns/CAMPAIGNID/actions/schedule
+  //   e.preventDefault();
+  //   console.log(e);
+  //   console.log( "- - -- - - - - -  - - - - - ");
+  //   console.log(e.target[0][0].value);
+  //   console.log(String(this.state.date));
+  //   // console.log((this.state.date).toISOString());
+  //   let time = (this.state.date).toISOString();
+  //   time = time.substring(0, time.length - 5) + "+00:00";
+  //   console.log(time);
+  //   let templateChoice = parseInt(e.target[0].value);
+  //   let segmentChoice = parseInt(e.target[1].value);
+  //   let listChoice = parseInt(e.target[1].value);
+  //   let dummyTime = "2020-05-21T20:30:32+00:00";
+  //    // e.target.templateList.template.value
+  //   // e.target.emailList.list.value
+
+  //   const form = e.target;
+  //   //const data = new FormData(form);
+
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Authorization", "Basic YXBpa2V5OmM0ZmFmMGM2NmRkMjhmZTBiZWJmMmE2Y2NlNWQ0NzVlLXVzMTE=");
+  //   myHeaders.append("Content-Type", "application/json");
+
+  //   let raw = JSON.stringify(
+  //     {
+  //       "id":"",
+  //       "status": "schedule",
+  //       "type":"regular",
+  //       "create_time":time,
+  //       "send_time":dummyTime,
+  //       "content_type":"html",
+  //       "recipients": {
+  //         "list_id":"f3e30ff0d3",
+  //         "list_is_active":true,
+  //         "list_name":"",
+  //         "segment_text":"",
+  //         "recipient_count":16,
+  //         // "segment_opts": {
+  //         //   "saved_segment_id": segmentChoice,
+  //         //   "match": "any",
+  //         //   "conditions": [
+  //         //       {
+  //         //           "condition_type": "StaticSegment",
+  //         //           "field": "static_segment",
+  //         //           "op": "static_is",
+  //         //           "value": segmentChoice
+  //         //       }
+  //         //     ]
+  //         //   }
+  //         },
+  //         "settings": {
+  //           "subject_line":"Email test on Thursday",
+  //           "title":"How Many Times Does This Happen???????",
+  //           "from_name":"Awaken Pittsburgh",
+  //           "reply_to":"awakenprjct@gmail.com",
+  //           "to_name": "*|FNAME|*",
+  //           "authenticate": true,
+  //           "template_id": templateChoice,
+  //         }
+  //       });
+  
+  //   let requestOptions = {
+  //     method: 'POST',
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: 'follow'
+  //   };
+
+  //   fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns/" + this.state.campaignId + "/actions/schedule", requestOptions)
+  //   // this is new copied from getEmail lists
+  //   // 
+  //   .then(response => {
+  //     return response.json();
+  //   })
+  //   .then(jsonData => {
+  //     console.log(jsonData);
+  //     this.setState({
+  //       campaignId: jsonData.id,
+  //       // emailIsLoading: false
+  //     });
+  //     console.log(this.state.campaignId);
+  //     // this.props.callbackForLists(this.state.lists);
+  //   })    
+  //   // // this was how it used to be
+  //   // 
+  //   //   .then(response => response.json())
+  //   //   .then(result => id = result.id)
+  //   //   // .then(result => console.log(result.id))
+  //   //   // .then(result => id = result.id)
+  //   //   .then(console.log("ID - - - - - "))
+  //   //   .then(console.log(id))
+  //   //   // .then(this.setState({campaignSent: true}))
+  //     .catch(error => console.log('error', error));
+  //   // }
+  // }
+
   createCampaign(e)
   {
+    // let id = "";
     e.preventDefault();
     console.log(e);
     console.log( "- - -- - - - - -  - - - - - ");
@@ -99,11 +201,11 @@ class MailChimp extends React.Component {
     // console.log((this.state.date).toISOString());
     let time = (this.state.date).toISOString();
     time = time.substring(0, time.length - 5) + "+00:00";
-    console.log(time);
+    // console.log(time);
     let templateChoice = parseInt(e.target[0].value);
     let segmentChoice = parseInt(e.target[1].value);
     let listChoice = parseInt(e.target[1].value);
-    let dummyTime = "2020-05-21T15:43:32+00:00";
+    let dummyTime = "2020-05-21T20:30:00+00:00";
      // e.target.templateList.template.value
     // e.target.emailList.list.value
 
@@ -117,9 +219,10 @@ class MailChimp extends React.Component {
     let raw = JSON.stringify(
       {
         "id":"",
+        "status": "schedule",
         "type":"regular",
         "create_time":time,
-        "send_time":dummyTime,
+        "send_time": "2020-05-21T21:00:00+00:00",
         "content_type":"html",
         "recipients": {
           "list_id":"f3e30ff0d3",
@@ -141,8 +244,8 @@ class MailChimp extends React.Component {
           //   }
           },
           "settings": {
-            "subject_line":"Email test on Thursday",
-            "title":"How Many Times Does This Happen???????",
+            "subject_line":"boogaloo",
+            "title":"boogie time production",
             "from_name":"Awaken Pittsburgh",
             "reply_to":"awakenprjct@gmail.com",
             "to_name": "*|FNAME|*",
@@ -158,10 +261,32 @@ class MailChimp extends React.Component {
       redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      // .then(this.setState({campaignSent: true}))
+    
+    fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns/" + this.state.campaignId + "/actions/schedule", requestOptions)
+    // fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns", requestOptions)
+    // this is new copied from getEmail lists
+    // 
+    .then(response => {
+      return response.json();
+    })
+    .then(jsonData => {
+      console.log(jsonData);
+      this.setState({
+        campaignId: jsonData.id,
+        // emailIsLoading: false
+      });
+      console.log(this.state.campaignId);
+      // this.props.callbackForLists(this.state.lists);
+    })    
+    // // this was how it used to be
+    // 
+    //   .then(response => response.json())
+    //   .then(result => id = result.id)
+    //   // .then(result => console.log(result.id))
+    //   // .then(result => id = result.id)
+    //   .then(console.log("ID - - - - - "))
+    //   .then(console.log(id))
+    //   // .then(this.setState({campaignSent: true}))
       .catch(error => console.log('error', error));
     // }
   }
@@ -233,8 +358,10 @@ class MailChimp extends React.Component {
               {/* these options should be generated based on what we have in Airtable */}
           </select>
       </form>
+
+
       {/* Drop Down Menu Test for Email Templates from Mailchimp */}
-      <form onSubmit={this.createCampaign} className="menu box">
+      <form onSubmit={this.createCampaign} className="menu-box">
           <label htmlFor="template">Choose an email template from MailChimp:</label>
           <select id="templateList" name="templateList"> { displayTemplateList}</select>
           <br></br>

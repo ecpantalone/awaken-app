@@ -59,6 +59,8 @@ class App extends React.Component {
     <div className="App">
     
       < MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} /> 
+      lallalaalal
+      
       <div class = "list">
         {<EmailLists sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} />}
       </div>
