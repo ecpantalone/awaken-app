@@ -4,6 +4,7 @@ import './App.css';
 import request from 'request';
 
 // need to run "npm install airtable" in the console
+// New  Branch created for Forms
 
 const AirtableVar = require('airtable');
 AirtableVar.configure({
@@ -11,6 +12,9 @@ AirtableVar.configure({
     apiKey: 'keyn1hpKbx5jhKY7i'
 });
 const base = AirtableVar.base('appfQdjvtsNvuwzHF');
+
+let sessionsList = [];
+let studentsList = [];
 let studentList = [];
 
 class AirTable extends React.Component {
@@ -23,6 +27,7 @@ class AirTable extends React.Component {
         }
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
+        this.buildSessions = this.buildSessions.bind(this);
         this.buildSession = this.buildSession.bind(this);
 
     }
