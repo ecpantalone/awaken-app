@@ -29,35 +29,39 @@ class Forms extends React.Component {
         this.showForm = this.showForm.bind(this);
 
     }
-    
+
     //loads student emails into an array upon page load
-    componentDidMount() {
-        this.getStudents();
-        this.setState({studentsInfo: studentsList});
-     }
-
-
-    getStudents(){
-        // This code came from the Airtable API docs
-        base('Students').select({
-            view: "Grid view"
-        }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
-        
-            records.forEach(function(record) {
-                console.log('Retrieved', record.fields);
-                studentsList.push(record.get('EmailAddress'));
-            });
-            
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
-            fetchNextPage();
-        
-        }, function done(err) {
-            if (err) { console.error(err); return; }
-        });
+ componentDidMount() {
+    
+    console.log("inside didUPdate")
+    this.getStudents();
+    this.setState({studentsInfo: studentsList});
     }
+ 
+
+
+getStudents(){
+    // This code came from the Airtable API docs
+    base('Students').select({
+        view: "Grid view"
+    }).eachPage(function page(records, fetchNextPage) {
+        // This function (`page`) will get called for each page of records.
+    
+        records.forEach(function(record) {
+            console.log('Retrieved', record.fields);
+            studentsList.push(record.get('EmailAddress'));
+        });
+        
+        // To fetch the next page of records, call `fetchNextPage`.
+        // If there are more records, `page` will get called again.
+        // If there are no more records, `done` will get called.
+        fetchNextPage();
+    
+    }, function done(err) {
+        if (err) { console.error(err); return; }
+    });
+}
+    
     
     //this function is called on clicking Check Email button and looks for emails in the database that match what the user input
     checkDups(){
