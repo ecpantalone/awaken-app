@@ -21,18 +21,19 @@ class UpdateMailchimp extends React.Component {
         this.getMembers = this.getMembers.bind(this);
         this.compareMembersAndStudents = this.compareMembersAndStudents.bind(this);
         this.addNewStudent = this.addNewStudent.bind(this);
+        this.addTagToStudent = this.addTagToStudent.bind(this);
 
     }
 
     componentDidUpdate () {
         // console.log("DATA LOG START")
         // console.log("sessions", this.props.sessions);
-        // console.log("students", this.props.students);
+         console.log("students", this.props.students);
         // console.log("lists", this.props.lists)
         // console.log("segments", this.props.segments);
         // console.log("members", this.props.members);
         // console.log("DATA LOG END")
-        this.getSegments();
+       // this.getSegments();
         this.getMembers();
     }
 
@@ -129,30 +130,35 @@ class UpdateMailchimp extends React.Component {
                 // for each student in that session
                 this.props.students[session].forEach(student => {
                     let emailOnList = false;
+                    // console.log(session, student['EmailAddress'])
                     // for each email list on mailchimp
                     mailchimpMembers.forEach(member => {
 
                         // if there is an email address on mailchimp that matches the email address on airtable
                         if (member['EmailAddress'] === student['EmailAddress']) {
                             emailOnList = true;
-                            console.log("email on list");
+                            
                             // if the emails match and the email address on mailchimp has a tag with the session
-                            if (member['tags'][0]) {
-                                if (member['tags'][0].name === session) {
-                                    console.log("member has tag");
+                            if (member['tags']) {
+                                let hasTags = false;
+                                for (let index = 0; index < member['tags'].length; index++) {
+                                    if (member['tags'][index].name === session) {
+                                        hasTags = true;
+                                     }
                                 }
-                            }
-                            // if the emails match but there is no tag
-                            else {
-                                student.Session = session;
-                                student.id = member['id'];
-                                untagged.push(student);
-                            }
+                                if(!hasTags){
+                                    student.Session = session;
+                                    student.id = member['id'];
+                                    untagged.push(student);
+                                }
+                                
                         }
-
+                        }
                     });
                     // if the student is not a member on mailchimp
                     if (!emailOnList) {
+                        //TODO: why are boop@gmail.com and snow@gmail.com appearing here?
+                        // console.log(student);
                         student.Session = session;
                         notMailchimpMember.push(student);
                     }
@@ -160,9 +166,12 @@ class UpdateMailchimp extends React.Component {
             }
             if(notMailchimpMember) {
                 notMailchimpMember.forEach(newMember => {
-                    console.log(newMember);
-                    this.addNewStudent(newMember);
+                    // console.log(newMember);
+                    // this.addNewStudent(newMember);
                 });
+            }
+            if(untagged){
+                console.log(untagged)
             }
             console.log("not on list", notMailchimpMember);
             console.log("untagged", untagged);
@@ -206,6 +215,34 @@ class UpdateMailchimp extends React.Component {
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
 
+    }
+
+    addTagToStudent (student) {
+        console.log("clicked!");
+        let session = student['Session'];
+        let endpoint = "http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/5daa72e500/members/" + student['id'] + "/tags"
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify(
+            {
+                "tags":[ {
+                    name: session
+                } ]
+            });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(endpoint, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     }
 
     render() {
