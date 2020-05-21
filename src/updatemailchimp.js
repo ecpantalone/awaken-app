@@ -129,23 +129,23 @@ class UpdateMailchimp extends React.Component {
             for (let session in this.props.students) {
                 // for each student in that session
                 this.props.students[session].forEach(student => {
-                    let emailOnList = false;
-                    // console.log(session, student['EmailAddress'])
+                    let emailOnList = false; // flag to be switched if email match is found
                     // for each email list on mailchimp
                     mailchimpMembers.forEach(member => {
 
                         // if there is an email address on mailchimp that matches the email address on airtable
                         if (member['EmailAddress'] === student['EmailAddress']) {
-                            emailOnList = true;
+                            emailOnList = true; // match found, flag switched
                             
                             // if the emails match and the email address on mailchimp has a tag with the session
                             if (member['tags']) {
-                                let hasTags = false;
+                                let hasTags = false; // flag to be switched if tag match found
                                 for (let index = 0; index < member['tags'].length; index++) {
                                     if (member['tags'][index].name === session) {
-                                        hasTags = true;
+                                        hasTags = true; // tag found, flag switched
                                      }
                                 }
+                                // if a matching tag is not found
                                 if(!hasTags){
                                     student.Session = session;
                                     student.id = member['id'];
@@ -164,14 +164,20 @@ class UpdateMailchimp extends React.Component {
                     }
                 });
             }
+            // if there are students in airtable that are not members on mailchimp
             if(notMailchimpMember) {
                 notMailchimpMember.forEach(newMember => {
                     // console.log(newMember);
                     // this.addNewStudent(newMember);
                 });
             }
+            // if a student is tagged in a session on airtable but not on mailchimp
             if(untagged){
                 console.log(untagged)
+                untagged.forEach(newTag => {
+                    // console.log(newMember);
+                     this.addTagToStudent(newTag);
+                });
             }
             console.log("not on list", notMailchimpMember);
             console.log("untagged", untagged);
