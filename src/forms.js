@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.js';
 import './App.css';
-// import request from 'request';
-import Newstudent from './newstudent.js'
 
 // need to run "npm install airtable" in the console
 
@@ -85,7 +83,10 @@ class Forms extends React.Component {
     showForm(){
         let newstudent = "";
         if (this.state.displayForm === true){
-            newstudent = <div>Please enter new student in the form below.<div></div><Newstudent/></div>
+            newstudent = <div><div>Please enter new student in the form below.</div><div>
+            <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script><iframe class="airtable-embed airtable-dynamic-height" src="https://airtable.com/embed/shrObi9YDZAtBdTFh?backgroundColor=yellow" frameborder="0" onmousewheel="" width="100%" height="835"></iframe>
+        <button type="button" onClick={() => window.location.reload(false)}>Refresh</button>
+        </div></div>
         }
         if (this.state.displayForm === false && this.state.confirmedDup === true){
             newstudent = <div>This is a duplicate. Please update in Airtable.</div>
@@ -94,20 +95,37 @@ class Forms extends React.Component {
     }
 
     render() {
+        let showForm = ""
+        if (this.props.formId === 1){
+            showForm = 
+            <div>
+            <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script><iframe class="airtable-embed airtable-dynamic-height" src="https://airtable.com/embed/shrVoz4cB6SRNNXlP?backgroundColor=yellow" frameborder="0" onmousewheel="" width="100%" height="1085"></iframe>
+            </div>
+        };
+        if (this.props.formId === 2){
+            showForm =
+            <div>
+            <form>
+                <label> Email:
+                <input  type="text"
+                    value={this.state.email}
+                    onChange={ e => this.setState({ email : e.target.value }) }
+               />
+                </label>
+                <input type="button" onClick={() => {this.checkDups()}} value="Check Email" />
+            </form>
+            {this.showForm()}
+            </div>
+        }
+        if (this.props.formId === 3){
+            showForm = 
+            <div>
+            <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script><iframe class="airtable-embed airtable-dynamic-height" src="https://airtable.com/embed/shrl6KxlCARZdJMlE?backgroundColor=yellow" frameborder="0" onmousewheel="" width="100%" height="995"></iframe>
+            </div>
+        };
         return (
         <div>
-        <form>
-        <label> Email:
-        <input  type="text"
-            value={this.state.email}
-            onChange={ e => this.setState({ email : e.target.value }) }
-           />
-        </label>
-        <input type="button" onClick={() => {this.checkDups()}} value="Check Email" />
-        </form>
-        <div>
-            {this.showForm()}
-        </div>
+            {showForm}
         </div>
         );
     }

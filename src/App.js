@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import AirTable from './airtable';
-import Forms from './forms';
+//import Forms from './forms';
+import Formmenu from './formmenu';
 import MailChimp from './mailchimp';
 
 class App extends React.Component {
@@ -109,7 +110,8 @@ class App extends React.Component {
             </select>
         </form>
         <div>
-        <Forms/>
+        {/* <Forms/> */}
+        <Formmenu/>
         </div>
         </div>
       </body>  
