@@ -8,8 +8,8 @@ import { Component } from "react";
 // these need to go into an .env file and be gitignored
 const CORS = "http://localhost:8080/";
 // const flatpickr = require("flatpickr");
-const mailchimpAPIKey = "f26e6c766b57d6e61e8a24868b66a07b-us18";
-const mailchimpURI = "https://us18.api.mailchimp.com/3.0/";
+const mailchimpAPIKey = "c4faf0c66dd28fe0bebf2a6cce5d475e-us11";
+const mailchimpURI = "https://us11.api.mailchimp.com/3.0/";
 
 class MailChimp extends React.Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class MailChimp extends React.Component {
       templates: [],
       lists: [],
       Submit: false,
+      subject: "Test",
       segments: [],
     }
 
@@ -101,6 +102,8 @@ class MailChimp extends React.Component {
     console.log(time);
     let templateChoice = parseInt(e.target[0].value);
     let segmentChoice = parseInt(e.target[1].value);
+    let listChoice = parseInt(e.target[1].value);
+    let dummyTime = "2020-05-21T15:43:32+00:00";
      // e.target.templateList.template.value
     // e.target.emailList.list.value
 
@@ -108,37 +111,37 @@ class MailChimp extends React.Component {
     //const data = new FormData(form);
 
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+    myHeaders.append("Authorization", "Basic YXBpa2V5OmM0ZmFmMGM2NmRkMjhmZTBiZWJmMmE2Y2NlNWQ0NzVlLXVzMTE=");
     myHeaders.append("Content-Type", "application/json");
 
     let raw = JSON.stringify(
       {
         "id":"",
         "type":"regular",
-        "create_time":"2020-05-14T14:15:19+00:00",
-        "send_time":time,
+        "create_time":time,
+        "send_time":dummyTime,
         "content_type":"html",
         "recipients": {
-          "list_id":"5daa72e500",
+          "list_id":"f3e30ff0d3",
           "list_is_active":true,
-          "list_name":"Awaken Pittsburgh",
+          "list_name":"",
           "segment_text":"",
           "recipient_count":16,
-          "segment_opts": {
-            "saved_segment_id": segmentChoice,
-            "match": "any",
-            "conditions": [
-                {
-                    "condition_type": "StaticSegment",
-                    "field": "static_segment",
-                    "op": "static_is",
-                    "value": segmentChoice
-                }
-              ]
-            }
+          // "segment_opts": {
+          //   "saved_segment_id": segmentChoice,
+          //   "match": "any",
+          //   "conditions": [
+          //       {
+          //           "condition_type": "StaticSegment",
+          //           "field": "static_segment",
+          //           "op": "static_is",
+          //           "value": segmentChoice
+          //       }
+          //     ]
+          //   }
           },
           "settings": {
-            "subject_line":"You are now enrolled in Test Add!",
+            "subject_line":"Email test on Thursday",
             "title":"How Many Times Does This Happen???????",
             "from_name":"Awaken Pittsburgh",
             "reply_to":"awakenprjct@gmail.com",
@@ -155,7 +158,7 @@ class MailChimp extends React.Component {
       redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/Campaigns", requestOptions)
+    fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       // .then(this.setState({campaignSent: true}))
@@ -163,6 +166,7 @@ class MailChimp extends React.Component {
     // }
   }
 
+  //currently not in use with the LFG account
   getListSegments()
   {
   let myHeaders = new Headers();
@@ -173,7 +177,7 @@ class MailChimp extends React.Component {
     redirect: 'follow'
   };
 
- fetch(CORS + mailchimpURI + "/lists/5daa72e500/segments?apikey=" + mailchimpAPIKey, requestOptions)
+ fetch(CORS + mailchimpURI + "/lists/f3e30ff0d3/segments?apikey=" + mailchimpAPIKey, requestOptions)
     .then(response => {
       return response.json();
     })
@@ -213,7 +217,8 @@ class MailChimp extends React.Component {
     }
       
     if (!this.state.emailIsLoading){
-      displayEmailList = this.state.segments.map(this.buildList);
+      //this will need to be segments, not lists
+      displayEmailList = this.state.lists.map(this.buildList);
     }
     
     // e.target.templateList.template.value
@@ -242,7 +247,11 @@ class MailChimp extends React.Component {
       <div>{/* Subject line generator - Currently not fully implemented but this is a good direction to connect to MailChimp Campaigns. */}
         <form>
         <label for="subjectLine">Subject Line:</label><br/>
-        <input name="subjectLine" id="subjectLine" list="subjectLines"/>
+        <input name="subjectLine" id="subjectLine" list="subjectLines" />
+        {/* value={this.state.subject}
+        onChange={this.state.subject => {
+          this.setState({ subject });
+        }} */}
         </form> 
 
         <datalist id="subjectLines">

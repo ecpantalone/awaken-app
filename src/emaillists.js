@@ -39,9 +39,9 @@ class EmailLists extends React.Component {
                     notOnMailchimp.push(this.props.sessions[index])
                 }
             }
-            this.setState({
-                listsToAdd: this.state.listsToAdd.concat([notOnMailchimp])
-            });
+            // this.setState({
+            //     listsToAdd: this.state.listsToAdd.concat([notOnMailchimp])
+            // });
         }
 
     }
