@@ -18,10 +18,10 @@ class Formmenu extends React.Component {
     render() {
         return (
         <div>
-            <button onClick={() => this.setState({formId: 1})}>Add Session</button>
-            <button onClick={() => this.setState({formId: 2})}>Add Student</button>
-            <button onClick={() => this.setState({formId: 3})}>Add Teacher</button>
-            <a href='https://airtable.com/' target='_blank'>Go To Airtable</a>
+            <div className="form-button" onClick={() => this.setState({formId: 1})}>add SESSION</div>
+            <div className="form-button" onClick={() => this.setState({formId: 3})}>add TEACHER</div>
+            <div className="form-button" onClick={() => this.setState({formId: 2})}>add STUDENT</div>
+            <a className="form-button" href='https://airtable.com/' target='_blank'>go to AIRTABLE</a>
             <Forms formId={this.state.formId}/>
         </div>
         );
