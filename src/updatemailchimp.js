@@ -19,12 +19,13 @@ class UpdateMailchimp extends React.Component {
         this.compareMembersAndStudents = this.compareMembersAndStudents.bind(this);
         this.addNewStudent = this.addNewStudent.bind(this);
         this.addTagToStudent = this.addTagToStudent.bind(this);
+        this.addNewSegment = this.addNewSegment.bind(this);
 
     }
 
     componentDidUpdate() {
         this.getMembers();
-        if(this.props.lists) {
+        if (this.props.lists) {
             console.log(this.props.lists[0].id)
         }
         console.log(this.props.students)
@@ -59,14 +60,13 @@ class UpdateMailchimp extends React.Component {
                         // member['tags']
                         let mailchimpTags = [];
                         for (let index = 0; index < member['tags'].length; index++) {
-                            mailchimpTags.push(member['tags'][index].name) 
+                            mailchimpTags.push(member['tags'][index].name)
                         }
-                        if(this.props.students[index]['Sessions']) {
+                        if (this.props.students[index]['Sessions']) {
                             this.props.students[index]['Sessions'].forEach(session => {
-                                if(!mailchimpTags.includes(session)){
-                                    let tempUntaggedData = {email: this.props.students[index]['EmailAddress'], tag: session}
+                                if (!mailchimpTags.includes(session)) {
+                                    let tempUntaggedData = { email: this.props.students[index]['EmailAddress'], tag: session }
                                     untagged.push(tempUntaggedData)
-                                    console.log(tempUntaggedData)
                                 }
 
                             });
@@ -89,7 +89,6 @@ class UpdateMailchimp extends React.Component {
             // if a student is tagged in a session on airtable but not on mailchimp
             if (untagged) {
                 untagged.forEach(newTag => {
-                    console.log(newTag)
                     this.addTagToStudent(newTag);
                 });
             }
@@ -128,14 +127,14 @@ class UpdateMailchimp extends React.Component {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/"+ this.props.lists[0].id + "/members", requestOptions)
+        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/" + this.props.lists[0].id + "/members", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
 
     }
 
-    //POST to mailchimp to add a tag to a student
+    //POST to mailchimp to add an exisiting tag to a student
     addTagToStudent(student) {
         console.log("clicked!");
         let session = student['tag'];
@@ -146,16 +145,49 @@ class UpdateMailchimp extends React.Component {
             if (this.props.segments[index].name === session) {
                 segment = this.props.segments[index].id
             }
-
         }
-        console.log(segment)
+        if (segment) {
+            console.log(segment)
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+            myHeaders.append("Content-Type", "application/json");
+
+            let raw = JSON.stringify(
+                {
+                    "email_address": email
+                });
+
+            let requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/" + this.props.lists[0].id + "/segments/" + segment + "/members", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+
+        } else {
+            this.addNewSegment(student);
+        }
+
+    }
+
+    //POST to mailchimp to add a new tag to a student
+    addNewSegment(student) {
+        let session = student['tag'];
+        let email = student['email']
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
         myHeaders.append("Content-Type", "application/json");
 
         let raw = JSON.stringify(
             {
-                "email_address": email
+                "name": session,
+                "static_segment": [email]
+
             });
 
         let requestOptions = {
@@ -165,10 +197,11 @@ class UpdateMailchimp extends React.Component {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/"+ this.props.lists[0].id + "/segments/" + segment + "/members", requestOptions)
+        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/" + this.props.lists[0].id + "/segments", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
+
     }
 
     render() {
