@@ -4,12 +4,14 @@ import './App.css';
 import request from 'request';
 
 // need to run "npm install airtable" in the console
+// New  Branch created for Forms
 
 const AirtableVar = require('airtable');
 AirtableVar.configure({
     endpointUrl: 'https://api.airtable.com',
     apiKey: 'keyn1hpKbx5jhKY7i'
 });
+
 const base = AirtableVar.base('appCqqPJRIUaLQHZB');
 
 let studentList = [];
@@ -90,9 +92,7 @@ class AirTable extends React.Component {
         displaySessions = this.state.sessions.map(this.buildSession);
 
         return (
-            <React.Fragment>
-                {displaySessions}
-            </React.Fragment>
+            <div></div>
         );
 
     }

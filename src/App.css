@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -15,4 +15,137 @@ text-align: center;
   padding: 10px;
   margin:10px;
   background-color: #ff9d3b;
+} */
+
+.App {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  background-image: url("https://ak.picdn.net/shutterstock/videos/1015835383/thumb/7.jpg");
+  /* save background image locally for the next line */
+  /* background-image: url("background.jpg"); */
+  /* background-size: 1700px; */
+  background-size: 100vw 100%;
+  background-repeat: no-repeat;
+  overflow: hidden;
 }
+
+.container {
+  display: flex;
+  margin: auto;
+  flex-direction: column ;
+  justify-content: center; 
+  /* height: 1000px; */
+  min-height: 100%;
+  width: 500px;
+  /* border: 5px;
+  border-style: solid; */
+  /* border-color: black; */
+  background-color: orange;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  /* margin: 150px 300px; */
+}
+
+.logo {
+  height: 300px;
+  width: 500px;
+  align-self: center;
+  margin-bottom: 25px;
+}
+
+.headers {
+  font-size:large;    
+}
+
+/* /* #topheader {
+  font-size: 50px;
+  letter-spacing: 3px; */
+
+#AdminPortaltext {
+  font-size: 30px;
+  letter-spacing: 8px;
+  text-align: center;
+  background-color: yellow;
+  margin-bottom: 15px;
+  background-image:
+    linear-gradient( to left, white, yellow
+    );
+
+}
+
+.button {
+  border: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-size: 25px;
+  color: orange;
+  pointer-events: all;
+  transition: 1s;
+  cursor: pointer;
+}
+
+.buttontext {
+  padding: 30px;
+  border: 1px;
+  border-color: white;
+  border-style: solid;
+}
+
+.footer {
+  margin-top: 85px;
+  
+  font-size: 25px;
+}
+
+.button:hover {
+  color: white;
+  background-color: orange;
+}
+
+.button:active {
+  color: orange;
+  background-color: white;
+}
+
+.menu {
+  margin-top: 15px;
+}
+
+/* AIRTABLE- MANAGE DATABASE COMPONENT Put this CSS here */
+.menu-box {
+width: 500px;
+/* border: 1px; */
+/* border-color: black; */
+/* border-style: solid; */
+font-size: 24px;
+background: linear-gradient( to left, white, yellow
+);
+color: rgb(90, 88, 88);
+
+}
+
+.classes {
+    display: block;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.3;
+    padding: .6em 1.4em .5em .8em;
+    width: 100%;
+    max-width: 100%; /* useful when width is set to anything other than 100% */
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    /* border-radius: .5em; */
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+}
+
+/* MAILCHIMP- SEND EMAILS COMPONENT Put this CSS here */
