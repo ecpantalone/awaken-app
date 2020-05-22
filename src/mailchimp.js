@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
-import "flatpickr/dist/themes/material_green.css";
-import Flatpickr from "react-flatpickr";
+// import "flatpickr/dist/themes/material_green.css";
+// import Flatpickr from "react-flatpickr";
 import { Component } from "react";
 
 
@@ -25,7 +25,9 @@ class MailChimp extends React.Component {
       Submit: false,
       subject: "Test",
       segments: [],
+      members: [],
       campaignId: ""
+
     }
 
     // bind things here
@@ -38,10 +40,9 @@ class MailChimp extends React.Component {
 
   }
 
-  getTemplates()
-  {
+  getTemplates() {
     let myHeaders = new Headers();
-  
+
     let requestOptions = {
       method: 'GET',
       headers: myHeaders,
@@ -53,20 +54,19 @@ class MailChimp extends React.Component {
         return response.json();
       })
       .then(jsonData => {
-        console.log(jsonData);
+        // console.log(jsonData);
         this.setState({
-          templates: jsonData.templates, 
+          templates: jsonData.templates,
           templatesIsLoading: false
-        });        
-        console.log(this.state.templates);
+        });
+        // console.log(this.state.templates);
       })
       .catch(error => console.log('error', error));
   }
 
-  getEmailLists()
-  {
+  getEmailLists() {
     let myHeaders = new Headers();
-  
+
     let requestOptions = {
       method: 'GET',
       headers: myHeaders,
@@ -78,12 +78,12 @@ class MailChimp extends React.Component {
         return response.json();
       })
       .then(jsonData => {
-        console.log(jsonData);
+        //  console.log(jsonData);
         this.setState({
           lists: jsonData.lists,
           emailIsLoading: false
         });
-        console.log(this.state.lists);
+        // console.log(this.state.lists);
         this.props.callbackForLists(this.state.lists);
       })
       .catch(error => console.log('error', error));
@@ -190,8 +190,7 @@ class MailChimp extends React.Component {
   //   // }
   // }
 
-  createCampaign(e)
-  {
+  createCampaign(e) {
     // let id = "";
     e.preventDefault();
     console.log(e);
@@ -253,47 +252,54 @@ class MailChimp extends React.Component {
             "template_id": templateChoice,
           }
         });
-  
-    let requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
 
+      let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/Campaigns", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .then(this.setState({ campaignSent: true }))
+        .catch(error => console.log('error', error));
+    }
+  
     
-    fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns/" + this.state.campaignId + "/actions/schedule", requestOptions)
-    // fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns", requestOptions)
-    // this is new copied from getEmail lists
-    // 
-    .then(response => {
-      return response.json();
-    })
-    .then(jsonData => {
-      console.log(jsonData);
-      this.setState({
-        campaignId: jsonData.id,
-        // emailIsLoading: false
-      });
-      console.log(this.state.campaignId);
-      // this.props.callbackForLists(this.state.lists);
-    })    
-    // // this was how it used to be
-    // 
-    //   .then(response => response.json())
-    //   .then(result => id = result.id)
-    //   // .then(result => console.log(result.id))
-    //   // .then(result => id = result.id)
-    //   .then(console.log("ID - - - - - "))
-    //   .then(console.log(id))
-    //   // .then(this.setState({campaignSent: true}))
-      .catch(error => console.log('error', error));
-    // }
-  }
+  //   fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns/" + this.state.campaignId + "/actions/schedule", requestOptions)
+  //   // fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns", requestOptions)
+  //   // this is new copied from getEmail lists
+  //   // 
+  //   .then(response => {
+  //     return response.json();
+  //   })
+  //   .then(jsonData => {
+  //     console.log(jsonData);
+  //     this.setState({
+  //       campaignId: jsonData.id,
+  //       // emailIsLoading: false
+  //     });
+  //     console.log(this.state.campaignId);
+  //     // this.props.callbackForLists(this.state.lists);
+  //   })    
+  //   // // this was how it used to be
+  //   // 
+  //   //   .then(response => response.json())
+  //   //   .then(result => id = result.id)
+  //   //   // .then(result => console.log(result.id))
+  //   //   // .then(result => id = result.id)
+  //   //   .then(console.log("ID - - - - - "))
+  //   //   .then(console.log(id))
+  //   //   // .then(this.setState({campaignSent: true}))
+  //     .catch(error => console.log('error', error));
+  //   // }
+  // }
 
   //currently not in use with the LFG account
-  getListSegments()
-  {
+
+getListSegments() {
   let myHeaders = new Headers();
 
   let requestOptions = {
@@ -302,24 +308,55 @@ class MailChimp extends React.Component {
     redirect: 'follow'
   };
 
- fetch(CORS + mailchimpURI + "/lists/f3e30ff0d3/segments?apikey=" + mailchimpAPIKey, requestOptions)
+  fetch(CORS + mailchimpURI + "/lists/f3e30ff0d3/segments?apikey=" + mailchimpAPIKey, requestOptions)
     .then(response => {
       return response.json();
     })
     .then(jsonData => {
-      console.log(jsonData);  
+      console.log(jsonData);
       this.setState({
         segments: jsonData.segments
+      })
+      this.props.callbackForSegments(this.state.segments);
+    })
+}
+
+  getListMembers() {
+    let myHeaders = new Headers();
+    let raw = JSON.stringify(
+      {
+        "fields": "tags",
       });
-      this.props.callbackForSegments(this.state.segments);})
+
+    let requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+
+    };
+
+    fetch(CORS + mailchimpURI + "/lists/5daa72e500/members?count=1000&status=subscribed&apikey=" + mailchimpAPIKey, requestOptions)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsonData => {
+        // console.log(jsonData);  
+        this.setState({
+          members: jsonData.members
+        });
+        this.props.callbackForMembers(this.state.members);
+      })
   }
-  
-  componentDidMount()
-  {
+
+
+  componentDidMount() {
     this.getTemplates();
     this.getEmailLists();
     this.getListSegments();
+    this.getListMembers();
   }
+
+
   
   buildTemplate(template)
   {
@@ -331,13 +368,12 @@ class MailChimp extends React.Component {
     return (<option name="list" value={list.id} key={list.id}>{list.name}</option>)
   }
 
-  render ()
-  {
+  render() {
     let displayEmailList = [];
     let displayTemplateList = [];
     const { date } = this.state;
 
-    if (!this.state.templatesIsLoading){
+    if (!this.state.templatesIsLoading) {
       displayTemplateList = this.state.templates.map(this.buildTemplate);
     }
       
@@ -393,14 +429,13 @@ class MailChimp extends React.Component {
         </datalist>
       </div>
 
-      <Flatpickr
+      {/* <Flatpickr
         data-enable-time
         value={date}
         onChange={date => {
           this.setState({ date });
         }}
-      />
-
+      /> */}
       </div>
     );
   }

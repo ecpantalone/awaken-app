@@ -3,7 +3,7 @@ import './App.css';
 import AirTable from './airtable';
 import Formmenu from './formmenu';
 import MailChimp from './mailchimp';
-import EmailLists from './emaillists';
+import UpdateMailchimp from './updatemailchimp';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,13 +16,15 @@ class App extends React.Component {
       sessions: [],
       students: [],
       lists: [],
-      segments: []
+      segments: [],
+      members: []
     }
 
     this.airtableSessionsCallback = this.airtableSessionsCallback.bind(this);
     this.airtableStudentsCallback = this.airtableStudentsCallback.bind(this);
     this.mailchimpListsCallback = this.mailchimpListsCallback.bind(this);
     this.mailchimpSegmentsCallback = this.mailchimpSegmentsCallback.bind(this);
+    this.mailchimpMembersCallback = this.mailchimpMembersCallback.bind(this);
   }
   
   airtableSessionsCallback = (airtableSessions) => {
@@ -49,11 +51,18 @@ class App extends React.Component {
   });
   }
 
+  mailchimpMembersCallback = (mailchimpMembers) => {
+    this.setState({
+      members: mailchimpMembers
+  });
+  }
+
   componentDidMount() {
     this.airtableSessionsCallback();
     this.airtableStudentsCallback();
     this.mailchimpListsCallback();
     this.mailchimpSegmentsCallback();
+    this.mailchimpMembersCallback();
     }
 
   render() {
@@ -72,9 +81,17 @@ class App extends React.Component {
     <div className="App">
     <div className="container">
     
+
+
+      <div class = "updater">
+        {<UpdateMailchimp sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
+        {<AirTable callbackForStudents= {this.airtableStudentsCallback} callbackForSessions = {this.airtableSessionsCallback}/>}
+      </div>
+
         <img className="logo" img src="https://cdn-az.allevents.in/banners/34f81faeb09b04cf6c85354a6d3baa44-rimg-w2087-h1398-gmir.jpg"
         ></img>
         <div className="headers">
+
 
           <header id="AdminPortaltext">ADMIN PORTAL</header>
         </div>
