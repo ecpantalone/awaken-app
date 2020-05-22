@@ -260,7 +260,7 @@ class MailChimp extends React.Component {
         redirect: 'follow'
       };
 
-      fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/Campaigns", requestOptions)
+      fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/Campaigns", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .then(this.setState({ campaignSent: true }))
