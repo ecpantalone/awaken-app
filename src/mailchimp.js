@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
-// import "flatpickr/dist/themes/material_green.css";
-// import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_green.css";
+import Flatpickr from "react-flatpickr";
 import { Component } from "react";
 
 
@@ -429,13 +429,13 @@ getListSegments() {
         </datalist>
       </div>
 
-      {/* <Flatpickr
+      <Flatpickr
         data-enable-time
         value={date}
         onChange={date => {
           this.setState({ date });
         }}
-      /> */}
+      /> 
       </div>
     );
   }
