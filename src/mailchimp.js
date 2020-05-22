@@ -352,12 +352,11 @@ class MailChimp extends React.Component {
     return(
       <div className = "menu">
       {/* Drop Down Menu Test for Classes from Airtable */}
-      <form className="menu box">
+      {/* <form className="menu box">
           <label htmlFor="class">Choose a class that you want to email from Airtable:</label>
           <select id="class" name="classes">
-              {/* these options should be generated based on what we have in Airtable */}
           </select>
-      </form>
+      </form> */}
 
 
       {/* Drop Down Menu Test for Email Templates from Mailchimp */}
@@ -365,7 +364,7 @@ class MailChimp extends React.Component {
           <label htmlFor="template">Choose an email template from MailChimp:</label>
           <select id="templateList" name="templateList"> { displayTemplateList}</select>
           <br></br>
-          <label htmlFor="list">Choose an email list from MailChimp:</label>
+          <label htmlFor="list">Choose a class email list from MailChimp:</label>
           <select id="emailList" name="emailList">{ displayEmailList }</select>
           <button>SUBMIT</button>
       </form>
