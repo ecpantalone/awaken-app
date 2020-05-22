@@ -2,48 +2,35 @@ import React from 'react';
 import './App.js';
 import './App.css';
 
-let mailchimpSegments = [];
+
 let mailchimpMembers = [];
 let notMailchimpMember = [];
 let untagged = [];
 
 class UpdateMailchimp extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
 
         }
 
-        this.getSegments = this.getSegments.bind(this);
         this.getMembers = this.getMembers.bind(this);
-        this.compareSessionsandSegments = this.compareSessionsandSegments.bind(this);
         this.compareMembersAndStudents = this.compareMembersAndStudents.bind(this);
         this.addNewStudent = this.addNewStudent.bind(this);
         this.addTagToStudent = this.addTagToStudent.bind(this);
 
     }
 
-    componentDidUpdate () {
-        this.getSegments();
+    componentDidUpdate() {
         this.getMembers();
-    }
-
-    // store segment names in variable for ease of access
-    getSegments () {
-        if (this.props.segments && mailchimpSegments.length === 0) {
-            for (let index = 0; index < (this.props.segments).length; index++) {
-                mailchimpSegments.push(this.props.segments[index].name);
-            }
-            this.compareSessionsandSegments();
-        }
     }
 
     // store current mailchimp member data in a variable for ease of access
     getMembers() {
         if (this.props.members && mailchimpMembers.length === 0) {
             for (let index = 0; index < (this.props.members).length; index++) {
-                let tempMailchimpData = { id: this.props.members[index].id, EmailAddress: this.props.members[index].email_address, tags: this.props.members[index].tags }
+                let tempMailchimpData = { EmailAddress: this.props.members[index].email_address, tags: this.props.members[index].tags }
                 mailchimpMembers.push(tempMailchimpData);
             }
             this.compareMembersAndStudents()
@@ -51,83 +38,58 @@ class UpdateMailchimp extends React.Component {
 
     }
 
-    // compare session names and segment names
-    compareSessionsandSegments() {
-        let notOnMailchimp = [];
-        if (this.props.sessions && mailchimpSegments && this.props.students) {
-            for (let index = 0; index < (this.props.sessions).length; index++) {
-                if (!mailchimpSegments.includes(this.props.sessions[index])) {
-                    notOnMailchimp.push(this.props.sessions[index])
-                }
-            }
-            if (notOnMailchimp) {
-                notOnMailchimp.forEach(newSession => {
-                    console.log(newSession)
-                    if (this.props.students[newSession]) {
-                        console.log("there are students")
-                        this.props.students[newSession].forEach(student => {
-                            this.addNewStudent(student);
-                        });
-                    }
-
-                });
-            }
-        }
-    }
-
     // compare members on mailchimp with students on airtable
     compareMembersAndStudents() {
         // if everything has loaded
         if (this.props.students && mailchimpMembers) {
-            // for every session group in students
-            for (let session in this.props.students) {
-                // for each student in that session
-                this.props.students[session].forEach(student => {
-                    let emailOnList = false; // flag to be switched if email match is found
-                    // for each email list on mailchimp
-                    mailchimpMembers.forEach(member => {
-                        // if there is an email address on mailchimp that matches the email address on airtable
-                        if (member['EmailAddress'] === student['EmailAddress']) {
-                            emailOnList = true; // match found, flag switched
-                            // if the emails match and the email address on mailchimp has a tag with the session
-                            if (member['tags']) {
-                                let hasTags = false; // flag to be switched if tag match found
-                                for (let index = 0; index < member['tags'].length; index++) {
-                                    if (member['tags'][index].name === session) {
-                                        hasTags = true; // tag found, flag switched
-                                     }
+            // for each student on airtable
+            for (let index = 0; index < this.props.students.length; index++) {
+                let emailOnList = false; // flag to be switched if email match is found
+                // for each email on mailchimp
+                mailchimpMembers.forEach(member => {
+                    // if there is an email address on mailchimp that matches the email address on airtable
+                    if (member['EmailAddress'] === this.props.students[index]['EmailAddress']) {
+                        emailOnList = true; // match found, flag switched
+                        // if the emails match and the email address on mailchimp has at least one tag
+                        if (member['tags']) {
+                            let hasTags = false; // flag to be switched if tag match found
+                            // go through the mailchimp tags
+                            member['tags'].forEach(tag => {
+                                // if there is a matching tag
+                                if (this.props.students[index]['Sessions'].includes(tag.name)) {
+                                    hasTags = true;
+                                } else {
+                                    hasTags = false;
                                 }
-                                // if a matching tag is not found
-                                if(!hasTags){
-                                    student.Session = session;
-                                    student.id = member['id'];
-                                    untagged.push(student);
-                                }
+                            });
+                            // if a matching tag is not found
+                            if (!hasTags) {
+                                // add student to untagged list
+                                untagged.push(this.props.students[index]);
+                            }
                         }
-                        }
-                    });
-                    // if the student is not a member on mailchimp
-                    if (!emailOnList) {
-                        //TODO: why are boop@gmail.com and snow@gmail.com appearing here?
-                        student.Session = session;
-                        notMailchimpMember.push(student);
                     }
                 });
+                // if the student is not a member on mailchimp
+                if (!emailOnList) {
+                    // add student to not a mailchimp member list
+                    notMailchimpMember.push(this.props.students[index]);
+                }
+
             }
             // if there are students in airtable that are not members on mailchimp
-            if(notMailchimpMember) {
+            if (notMailchimpMember) {
                 notMailchimpMember.forEach(newMember => {
-                     this.addNewStudent(newMember);
+                    this.addNewStudent(newMember);
                 });
             }
             // if a student is tagged in a session on airtable but not on mailchimp
-            if(untagged){
-                console.log(untagged)
+            if (untagged) {
                 untagged.forEach(newTag => {
                     this.addTagToStudent(newTag);
                 });
             }
-        } 
+        }
     }
 
     // POST to mailchimp for a new student
@@ -138,7 +100,7 @@ class UpdateMailchimp extends React.Component {
         let email = student['EmailAddress']
         let firstName = student['FirstName']
         let lastName = student['LastName']
-        let session = student['Session']
+        let session = student['Sessions']
         console.log(email)
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
@@ -147,7 +109,7 @@ class UpdateMailchimp extends React.Component {
         let raw = JSON.stringify(
             {
                 "email_address": email,
-                "tags": [session],
+                "tags": session,
                 "status": "subscribed",
                 merge_fields: {
                     FNAME: firstName,
@@ -171,17 +133,17 @@ class UpdateMailchimp extends React.Component {
     }
 
     //POST to mailchimp to add a tag to a student
-    addTagToStudent (student) {
+    addTagToStudent(student) {
         console.log("clicked!");
         let session = student['Session'];
         let email = student['EmailAddress']
         let segment;
 
         for (let index = 0; index < this.props.segments.length; index++) {
-            if(this.props.segments[index].name === session) {
+            if (this.props.segments[index].name === session) {
                 segment = this.props.segments[index].id
             }
-            
+
         }
         console.log(segment)
         var myHeaders = new Headers();
@@ -207,7 +169,7 @@ class UpdateMailchimp extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <div>
 
             </div>

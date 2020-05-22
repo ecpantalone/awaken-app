@@ -38,8 +38,6 @@ class AirTable extends React.Component {
                 self.setState({
                     sessions: self.state.sessions.concat([record.get('Session')])
                 });
-                // run get students on each session
-                self.getStudents(record.get('Session'));
             });
             fetchNextPage();
 
@@ -50,25 +48,22 @@ class AirTable extends React.Component {
         });
     }
 
-    getStudents(sessionview) {
-        let tempStudentList = [];
-        
+    getStudents() {
         const self = this;
         
         base('Students').select({
-            view: sessionview // this is the name of the view i.e. "Grid View" for all students "Session X" for a single session
+            view: "Grid view" 
         }).eachPage(function page(records, fetchNextPage) {
 
             records.forEach(function (record) {
                 // store temp studnt data in hash table i think?
-                let tempStudentData = {FirstName: record.get('FirstName'), LastName: record.get('LastName'), EmailAddress: record.get('EmailAddress')}
+                let tempStudentData = {FirstName: record.get('FirstName'), LastName: record.get('LastName'), EmailAddress: record.get('EmailAddress'), Sessions: record.get('ClassName')}
                 // add each chunk of student data to the student list
-                tempStudentList.push(tempStudentData);
+                studentList.push(tempStudentData);
             });
             fetchNextPage();
 
         }, function done(err) {
-            studentList[sessionview] = tempStudentList
             self.setState({
                 students: studentList
             });
@@ -82,6 +77,7 @@ class AirTable extends React.Component {
 
     componentDidMount() {
         this.getSessions();
+        this.getStudents();
     }
 
     buildSession(s) {
