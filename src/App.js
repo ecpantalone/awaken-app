@@ -54,7 +54,7 @@ class App extends React.Component {
     this.airtableStudentsCallback();
     this.mailchimpListsCallback();
     this.mailchimpSegmentsCallback();
-  }
+    }
 
   render() {
 
@@ -86,7 +86,7 @@ class App extends React.Component {
         <div className="button" onClick={() => this.setState({ showEM: !showEM })}>
           <div className="buttontext">SEND CLASS EMAILS</div>
         </div>
-        {showEM ? <MailChimp /> : null}
+        {showEM ? <MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback} /> : null}
 
         <div className="footer">
           <footer>Connect Mindfully. Live Fully.</footer>
