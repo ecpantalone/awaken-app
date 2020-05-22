@@ -24,6 +24,10 @@ class UpdateMailchimp extends React.Component {
 
     componentDidUpdate() {
         this.getMembers();
+        if(this.props.lists) {
+            console.log(this.props.lists[0].id)
+        }
+        console.log(this.props.students)
     }
 
     // store current mailchimp member data in a variable for ease of access
@@ -51,22 +55,21 @@ class UpdateMailchimp extends React.Component {
                     if (member['EmailAddress'] === this.props.students[index]['EmailAddress']) {
                         emailOnList = true; // match found, flag switched
                         // if the emails match and the email address on mailchimp has at least one tag
-                        if (member['tags']) {
-                            let hasTags = false; // flag to be switched if tag match found
-                            // go through the mailchimp tags
-                            member['tags'].forEach(tag => {
-                                // if there is a matching tag
-                                if (this.props.students[index]['Sessions'].includes(tag.name)) {
-                                    hasTags = true;
-                                } else {
-                                    hasTags = false;
+                        // this.props.students[index]['Sessions']
+                        // member['tags']
+                        let mailchimpTags = [];
+                        for (let index = 0; index < member['tags'].length; index++) {
+                            mailchimpTags.push(member['tags'][index].name) 
+                        }
+                        if(this.props.students[index]['Sessions']) {
+                            this.props.students[index]['Sessions'].forEach(session => {
+                                if(!mailchimpTags.includes(session)){
+                                    let tempUntaggedData = {email: this.props.students[index]['EmailAddress'], tag: session}
+                                    untagged.push(tempUntaggedData)
+                                    console.log(tempUntaggedData)
                                 }
+
                             });
-                            // if a matching tag is not found
-                            if (!hasTags) {
-                                // add student to untagged list
-                                untagged.push(this.props.students[index]);
-                            }
                         }
                     }
                 });
@@ -86,6 +89,7 @@ class UpdateMailchimp extends React.Component {
             // if a student is tagged in a session on airtable but not on mailchimp
             if (untagged) {
                 untagged.forEach(newTag => {
+                    console.log(newTag)
                     this.addTagToStudent(newTag);
                 });
             }
@@ -94,7 +98,6 @@ class UpdateMailchimp extends React.Component {
 
     // POST to mailchimp for a new student
     addNewStudent(student) {
-        console.log("clicked!")
         console.log(student);
 
         let email = student['EmailAddress']
@@ -125,7 +128,7 @@ class UpdateMailchimp extends React.Component {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/5daa72e500/members", requestOptions)
+        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/"+ this.props.lists[0].id + "/members", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -135,8 +138,8 @@ class UpdateMailchimp extends React.Component {
     //POST to mailchimp to add a tag to a student
     addTagToStudent(student) {
         console.log("clicked!");
-        let session = student['Session'];
-        let email = student['EmailAddress']
+        let session = student['tag'];
+        let email = student['email']
         let segment;
 
         for (let index = 0; index < this.props.segments.length; index++) {
@@ -162,7 +165,7 @@ class UpdateMailchimp extends React.Component {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/5daa72e500/segments/" + segment + "/members", requestOptions)
+        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/"+ this.props.lists[0].id + "/segments/" + segment + "/members", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
