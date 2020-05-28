@@ -118,8 +118,12 @@ color: rgb(90, 88, 88);
 
 }
 
+.select-box {
+
+}
+
 .form-button {
-    display: inline-block;
+    display: justify-flex;
     padding: 8px;
     margin-top: 8px;
     margin-bottom: 15px;
@@ -130,6 +134,13 @@ color: rgb(90, 88, 88);
     background: rgb(253, 249, 122);
     cursor: pointer;
     box-shadow: 0 8px 6px -6px black;
+    transition: 0.25s;
+}
+
+
+
+.form-button:hover {
+  color: orange;
 }
 
 /* MAILCHIMP- SEND EMAILS COMPONENT Put this CSS here */

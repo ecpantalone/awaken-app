@@ -396,25 +396,42 @@ getListSegments() {
 
 
       {/* Drop Down Menu Test for Email Templates from Mailchimp */}
-      <form onSubmit={this.createCampaign} className="menu-box">
-          <label htmlFor="template">Choose an email template from MailChimp:</label>
-          <select id="templateList" name="templateList"> { displayTemplateList}</select>
-          <br></br>
-          <label htmlFor="list">Choose a class email list from MailChimp:</label>
-          <select id="emailList" name="emailList">{ displayEmailList }</select>
-          <button>SUBMIT</button>
-      </form>
+      {/* <form onSubmit={this.createCampaign}> */}
+      <form>
+        <div className="form-button">
+          <label htmlFor="template">choose TEMPLATE:</label><br />
+          <select id="templateList" name="templateList">
+            <option>Welcome Message</option>
+            <option>Week 1 Message</option>
+            <option>Week 2 Message</option>
+            {/* <option>This is a test option that is really, really, really long!</option>  */}
+            { displayTemplateList }
+          </select>
+        </div>
+        <div className="form-button">
+          <label htmlFor="list">choose SESSION:</label><br />
+          <select id="emailList" name="emailList">
+            <option>Fall 2020 Homestead</option>
+            <option>Fall 2020 Munhall</option>
+            <option>Spring 2021 Homestead</option>
+            {/* <option>This is a test option that is really, really, really, really, really, really, really long!</option> */}
+            { displayEmailList }
+          </select><br />
+        </div>
+        
+      {/* </form> */}
 
       
-      <div>{/* Subject line generator - Currently not fully implemented but this is a good direction to connect to MailChimp Campaigns. */}
-        <form>
-        <label for="subjectLine">Subject Line:</label><br/>
+       { /* Subject line generator - Currently not fully implemented but this is a good direction to connect to MailChimp Campaigns. */}
+       <div className="form-button">
+        {/* <form> */}
+        <label for="subjectLine">SUBJECT LINE:</label><br/>
         <input name="subjectLine" id="subjectLine" list="subjectLines" />
         {/* value={this.state.subject}
         onChange={this.state.subject => {
           this.setState({ subject });
         }} */}
-        </form> 
+        {/* </form>  */}
 
         <datalist id="subjectLines">
         <option>Spring Meditations</option>
@@ -428,8 +445,10 @@ getListSegments() {
         <option>Gray</option> 
         </datalist>
       </div>
-
-      <Flatpickr
+      <div className="form-button">
+      <label>schedule DATE/TIME:</label><br />
+      
+      <Flatpickr 
         data-enable-time
         value={date}
         onChange={date => {
@@ -437,6 +456,11 @@ getListSegments() {
         }}
       /> 
       </div>
+      <div className="form-button" onClick={this.createCampaign}>SCHEDULE</div>
+        {/* <button>SUBMIT</button> */}
+      </form>
+    </div>
+    
     );
   }
 }
