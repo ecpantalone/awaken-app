@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import "flatpickr/dist/themes/material_green.css";
+import './flatpickr.css';
 import Flatpickr from "react-flatpickr";
 import { Component } from "react";
 
@@ -398,35 +398,37 @@ getListSegments() {
       {/* Drop Down Menu Test for Email Templates from Mailchimp */}
       {/* <form onSubmit={this.createCampaign}> */}
       <form>
-        <div className="form-button">
+      
+        <div className="form-box">
           <label htmlFor="template">choose TEMPLATE:</label><br />
-          <select id="templateList" name="templateList">
+          <select className="select-css" id="templateList" name="templateList">
             <option>Welcome Message</option>
             <option>Week 1 Message</option>
             <option>Week 2 Message</option>
             {/* <option>This is a test option that is really, really, really long!</option>  */}
             { displayTemplateList }
           </select>
-        </div>
-        <div className="form-button">
+          </div>
+       
+        <div className="form-box">
           <label htmlFor="list">choose SESSION:</label><br />
-          <select id="emailList" name="emailList">
+          <select className="select-css" id="emailList" name="emailList">
             <option>Fall 2020 Homestead</option>
             <option>Fall 2020 Munhall</option>
             <option>Spring 2021 Homestead</option>
             {/* <option>This is a test option that is really, really, really, really, really, really, really long!</option> */}
             { displayEmailList }
-          </select><br />
+          </select>
         </div>
         
       {/* </form> */}
 
       
        { /* Subject line generator - Currently not fully implemented but this is a good direction to connect to MailChimp Campaigns. */}
-       <div className="form-button">
+       <div className="form-box">
         {/* <form> */}
         <label for="subjectLine">SUBJECT LINE:</label><br/>
-        <input name="subjectLine" id="subjectLine" list="subjectLines" />
+        <input className="select-css" name="subjectLine" id="subjectLine" list="subjectLines" />
         {/* value={this.state.subject}
         onChange={this.state.subject => {
           this.setState({ subject });
@@ -445,7 +447,7 @@ getListSegments() {
         <option>Gray</option> 
         </datalist>
       </div>
-      <div className="form-button">
+      <div className="form-box">
       <label>schedule DATE/TIME:</label><br />
       
       <Flatpickr 
