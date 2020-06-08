@@ -6,6 +6,7 @@ import Formmenu from './formmenu';
 import MailChimp from './mailchimp';
 import UpdateMailchimp from './updatemailchimp';
 import Dashboard from './dashboard';
+import APIRequestForm from './apirequestform';
 
 class App extends React.Component {
 
@@ -14,8 +15,8 @@ class App extends React.Component {
 
 
   return (
-
-    <Dashboard />
+    <APIRequestForm />
+    // <Dashboard />
     
   );
   }
