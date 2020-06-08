@@ -1,135 +1,172 @@
-/* .App {
-  text-align: center;
-}
-
-
-
-
-.menu{
-text-align: center;
-}
-
-.box{
-  padding: 10px;
-  margin:10px;
-  background-color: #ff9d3b;
-} */
 
 .App {
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-  background-image: url("https://ak.picdn.net/shutterstock/videos/1015835383/thumb/7.jpg");
-  /* save background image locally for the next line */
-  /* background-image: url("background.jpg"); */
-  /* background-size: 1700px; */
-  background-size: 100vw 100%;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  overflow: hidden;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    background-image: url("https://ak.picdn.net/shutterstock/videos/1015835383/thumb/7.jpg");
+    /* save background image locally for the next line */
+    /* background-image: url("background.jpg"); */
+    background-size: 100vw 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    
 }
 
 .container {
-  display: flex;
-  margin: auto;
-  flex-direction: column ;
-  justify-content: center; 
-  min-height: 100%;
-  width: 500px;
-  background-color: orange;
-  padding-top: 100px;
-  padding-bottom: 100px;
-  padding-left: 50px;
-  padding-right: 50px;
+    display: flex;
+    margin: auto;
+    flex-direction: column ;
+    justify-content: center; 
+    min-height: 100%;
+    width: 500px;
+    background-color: orange;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    padding-left: 50px;
+    padding-right: 50px;
+    overflow: auto;
+    
 }
 
 .logo {
-  height: 300px;
-  width: 500px;
-  align-self: center;
-  margin-bottom: 25px;
+    height: 300px;
+    width: 500px;
+    align-self: center;
+    margin-bottom: 25px;
 }
 
 .headers {
-  font-size:large;    
+    font-size:large;    
 }
 
 #AdminPortaltext {
-  font-size: 30px;
-  letter-spacing: 8px;
-  text-align: center;
-  background-color: yellow;
-  margin-bottom: 15px;
-  background-image:
-    linear-gradient( to left, white, yellow
-    );
-
+    font-size: 30px;
+    letter-spacing: 8px;
+    text-align: center;
+    background-color: yellow;
+    margin-bottom: 15px;
+    background-image: linear-gradient( to left, white, yellow );
 }
 
 .button {
-  border: none;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  background-color: white;
-  font-size: 25px;
-  color: orange;
-  pointer-events: all;
-  transition: 1s;
-  cursor: pointer;
+    border: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+    font-size: 25px;
+    color: orange;
+    pointer-events: all;
+    transition: 1s;
+    cursor: pointer;
 }
 
 .buttontext {
-  padding: 30px;
-  border: 1px;
-  border-color: white;
-  border-style: solid;
+    padding: 30px;
+    border: 1px;
+    border-color: white;
+    border-style: solid;
 }
 
 .footer {
-  margin-top: 85px;
-  
-  font-size: 25px;
+    margin-top: 85px; 
+    font-size: 25px;
 }
 
 .button:hover {
-  color: white;
-  background-color: orange;
+    color: white;
+    background-color: orange;
 }
 
 .button:active {
-  color: orange;
-  background-color: white;
+    color: orange;
+    background-color: white;
 }
 
 .menu {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 /* AIRTABLE- MANAGE DATABASE COMPONENT Put this CSS here */
-.menu-box {
-width: 500px;
-/* border: 1px; */
-/* border-color: black; */
-/* border-style: solid; */
-font-size: 24px;
-background: linear-gradient( to left, white, yellow
-);
-color: rgb(90, 88, 88);
 
-}
-
-.form-button {
-    display: inline-block;
+.form-box {
+    /* width: 500px;
+    font-size: 24px;
+    background: linear-gradient( to left, white, yellow );
+    color: rgb(90, 88, 88); */
     padding: 8px;
     margin-top: 8px;
     margin-bottom: 15px;
-    margin-left: 8px;
-    margin-right: 8px;
+    color: black;
+    text-decoration: none;
+    background: rgb(253, 249, 122);
+    box-shadow: 0 8px 6px -6px black;
+}
+
+.form-button {
+    display: justify-flex;
+    padding: 8px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    /* margin-left: 8px; */
+    /* margin-right: 8px; */
     color: black;
     text-decoration: none;
     background: rgb(253, 249, 122);
     cursor: pointer;
     box-shadow: 0 8px 6px -6px black;
+    transition: 0.25s;
+}
+.at-button {
+    display: justify-flex;
+    padding: 8px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    color: black;
+    text-decoration: none;
+    background: rgb(253, 249, 122);
+    cursor: pointer;
+    transition: 0.25s;
+}
+.at-button:hover{
+    color: orange;
+}
+.at-button:active {
+    color: white;
+}
+.form-button:hover {
+    color: orange;
+}
+.form-button:active {
+    color: white;
 }
 
 /* MAILCHIMP- SEND EMAILS COMPONENT Put this CSS here */
+
+.select-css {
+	display: block;
+	font-size: 16px;
+	font-family: 'Montserrat', sans-serif;
+	color: #444;
+	line-height: 1;
+	padding: .6em 1.4em .5em .8em;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+    margin: 0;
+    /* border: none; */
+	border: 1px solid #aaa;
+	/* box-shadow: 0 1px 0 1px rgba(0,0,0,.04); */
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+    background-color: #fff;
+	/* background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+	  linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); */
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
+}
