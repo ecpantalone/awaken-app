@@ -74,6 +74,8 @@ class App extends React.Component {
   const { showDB } = this.state;
   const { showEM } = this.state;
 
+  // new branch
+
   // listOfEmailTemplates = this.state.emailTemplateLists.map(this.emailListGenerator);
   // listOfSessions = this.state.sessions.map(this.sessionListGenerator);
 
