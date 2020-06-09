@@ -16,16 +16,41 @@ class APIRequestForm extends React.Component {
             airtableKey: ''
         }
 
-        this.setAPIKeys = this.setAPIKeys.bind(this);
+        this.setMailchimpAPIKeys = this.setMailchimpAPIKeys.bind(this);
+        this.setAirTableAPIKeys = this.setAirTableAPIKeys.bind(this);
+        this.validateAPIKeys = this.validateAPIKeys.bind(this);
     }
 
-    setAPIKeys(e) {
+    setMailchimpAPIKeys(e) {
         // set for mailchimp
-        console.log(e);
-
-        // set for airtable
+        e.preventDefault();
+        // console.log('set mailchimp', e);
+        this.setState({mailchimpKey: e.target.value}, function () {
+          console.log("mailchimpAPI", this.state.mailchimpKey);
+      });
     }
 
+    setAirTableAPIKeys(e) {
+      // set for airtable
+      e.preventDefault();
+      // console.log('set airtable', e);
+      this.setState({airtableKey: e.target.value}, function () {
+        console.log("airtableAPI", this.state.airtableKey);
+      });
+
+  }
+
+    validateAPIKeys(e) {
+      e.preventDefault();
+      this.setState({keysValid: true});
+      // console.log('validate', e)
+      this.props.callbackForValidation(this.state.keysValid);
+      this.props.callbackForAirtableAPI(this.state.airtableKey);
+      this.props.callbackForMailchimpAPI(this.state.mailchimpKey);
+      console.log('mailchimpAPI', this.state.mailchimpKey)
+      console.log('airtableAPI', this.state.airtableKey)
+    }
+    
 
     render () {
         return (
@@ -37,12 +62,15 @@ class APIRequestForm extends React.Component {
   
             <header id="AdminPortaltext">ADMIN PORTAL</header>
           </div>
-          <form className="form-box" id="api-form">
-          <label htmlFor="list">mailchimp API KEY</label><br />
-          <input type="text" id="mailchimp-api-key"></input><br />
-          <label htmlFor="list">airtable API KEY</label><br />
-          <input type="text" id="airtable-api-key"></input><br />
-          <button form="api-form" onClick={this.setAPIKeys}>Submit</button>
+
+        <form className="form-box" id="api-form" onSubmit={this.validateAPIKeys}>
+         
+          <label>mailchimp API KEY</label><br />
+          <input type="text" id="mailchimp-api-key" value={this.state.mailchimpKey} onChange={this.setMailchimpAPIKeys}></input><br />
+          <label>airtable API KEY</label><br />
+          <input type="text" id="airtable-api-key" value={this.state.airtableKey} onChange={this.setAirTableAPIKeys}></input><br />
+          
+          <input type="Submit" value="Submit" onClick={this.validateAPIKeys} id="api-form"></input>
         </form>
 
           <div className="footer">
