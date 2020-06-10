@@ -22,7 +22,7 @@ class Formmenu extends React.Component {
             <div className="form-button" onClick={() => this.setState({formId: 3})}>add TEACHER</div>
             <div className="form-button" onClick={() => this.setState({formId: 2})}>add STUDENT</div>
             <div className="form-button"><a className="at-button" href='https://airtable.com/' target='_blank'>go to AIRTABLE</a></div>
-            <Forms formId={this.state.formId}/>
+            <Forms formId={this.state.formId} apiKey = {this.props.airtableAPI} baseId = {this.props.airtableBase}/>
         </div>
         );
     }

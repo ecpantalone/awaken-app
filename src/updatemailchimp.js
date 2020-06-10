@@ -18,10 +18,17 @@ class UpdateMailchimp extends React.Component {
         this.addTagToStudent = this.addTagToStudent.bind(this);
         this.addNewSegment = this.addNewSegment.bind(this);
 
+        // mail chimp url : this.props.url
+        // mailchimp key : this.props.apiKey
+        // mailchimp list id : this.props.listId
+
     }
 
     componentDidUpdate() {
         this.getMembers();
+        console.log("inside of update mailchimp")
+        console.log(this.props.members);
+        console.log(this.props.lists);
     }
 
     // store current mailchimp member data in a variable for ease of access
@@ -92,10 +99,10 @@ class UpdateMailchimp extends React.Component {
         let firstName = student['FirstName'];
         let lastName = student['LastName'];
         let session = student['Sessions'];
-        let listID = this.props.lists[0].id;
+        let listID = this.props.listId;
 
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+        myHeaders.append("Authorization", "Basic YXBpa2V5OmM0ZmFmMGM2NmRkMjhmZTBiZWJmMmE2Y2NlNWQ0NzVlLXVzMTE=");
         myHeaders.append("Content-Type", "application/json");
 
         let raw = JSON.stringify(
@@ -117,7 +124,7 @@ class UpdateMailchimp extends React.Component {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/" + listID + "/members", requestOptions)
+        fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/lists/" + listID + "/members", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -126,7 +133,7 @@ class UpdateMailchimp extends React.Component {
 
     //POST to mailchimp to add an exisiting tag to a student
     addTagToStudent(student) {
-        let listID = this.props.lists[0].id;
+        let listID = this.props.listId;
         let session = student['tag'];
         let email = student['email']
         let segmentID;
@@ -139,7 +146,7 @@ class UpdateMailchimp extends React.Component {
         // if there is already a segment/tag on mailchimp that matches the one that the student has been added to on airtable
         if (segmentID) {
             var myHeaders = new Headers();
-            myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+            myHeaders.append("Authorization", "Basic YXBpa2V5OmM0ZmFmMGM2NmRkMjhmZTBiZWJmMmE2Y2NlNWQ0NzVlLXVzMTE=");
             myHeaders.append("Content-Type", "application/json");
 
             let raw = JSON.stringify(
@@ -154,7 +161,7 @@ class UpdateMailchimp extends React.Component {
                 redirect: 'follow'
             };
 
-            fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/" + listID + "/segments/" + segmentID + "/members", requestOptions)
+            fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/lists/" + listID + "/segments/" + segmentID + "/members", requestOptions)
                 .then(response => response.text())
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
@@ -167,11 +174,11 @@ class UpdateMailchimp extends React.Component {
 
     //POST to mailchimp to add a new tag to a student
     addNewSegment(student) {
-        let listID = this.props.lists[0].id;
+        let listID = "f3e30ff0d3";
         let session = student['tag'];
         let email = student['email']
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Basic YXBpa2V5OmRlM2JlNTZlZTY3NGNiMWI2YzY4ZDE2ZDQwNzg0ZDM0LXVzMTg=");
+        myHeaders.append("Authorization", "Basic YXBpa2V5OmM0ZmFmMGM2NmRkMjhmZTBiZWJmMmE2Y2NlNWQ0NzVlLXVzMTE=");
         myHeaders.append("Content-Type", "application/json");
 
         let raw = JSON.stringify(
@@ -188,7 +195,7 @@ class UpdateMailchimp extends React.Component {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/https://us18.api.mailchimp.com/3.0/lists/" + listID + "/segments", requestOptions)
+        fetch("http://localhost:8080/https://us11.api.mailchimp.com/3.0/lists/" + listID + "/segments", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
