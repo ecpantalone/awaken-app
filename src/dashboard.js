@@ -102,7 +102,7 @@ class Dashboard extends React.Component {
           <div className="button" onClick={() => this.setState({ showDB: !showDB })}>
             <div className="buttontext">MANAGE DATABASE</div>
           </div>
-          {showDB ? <Formmenu/> : null}
+          {showDB ? <Formmenu apiKey = {this.props.airtableAPI} baseId = {this.props.airtableBase}/> : null}
           <div className="button" onClick={() => this.setState({ showEM: !showEM })}>
             <div className="buttontext">SEND CLASS EMAILS</div>
           </div>

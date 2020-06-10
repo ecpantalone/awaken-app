@@ -5,11 +5,8 @@ import './App.css';
 // need to run "npm install airtable" in the console
 
 const AirtableVar = require('airtable');
-AirtableVar.configure({
-    endpointUrl: 'https://api.airtable.com',
-    apiKey: 'keyn1hpKbx5jhKY7i'
-});
-const base = AirtableVar.base('appfQdjvtsNvuwzHF');
+
+let base
 
 let studentsList = []; // Currently used to store all the student email addresses from airtable.
 
@@ -24,10 +21,19 @@ class Forms extends React.Component {
             confirmedDup: false //displays "this is a duplicate email" only when we have confirmed a dup, not upon page load
         };
         
+        this.config = this.config.bind(this);
         this.getStudents = this.getStudents.bind(this);
         this.checkDups = this.checkDups.bind(this);
         this.showForm = this.showForm.bind(this);
 
+    }
+
+    config() {
+        AirtableVar.configure({
+            endpointUrl: 'https://api.airtable.com',
+            apiKey: this.props.apiKey
+        });
+        base = AirtableVar.base(this.props.baseId);
     }
 
     //loads student emails into an array upon page load

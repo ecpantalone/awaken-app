@@ -8,8 +8,7 @@ import { Component } from "react";
 // these need to go into an .env file and be gitignored
 const CORS = "http://localhost:8080/";
 // const flatpickr = require("flatpickr");
-// const mailchimpApiKeyHC = "c4faf0c66dd28fe0bebf2a6cce5d475e-us11";
-// const mailchimpHCURI = "https://us11.api.mailchimp.com/3.0/";
+
 
 class MailChimp extends React.Component {
   constructor(props) {
