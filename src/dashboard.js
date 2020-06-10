@@ -88,7 +88,7 @@ class Dashboard extends React.Component {
   
         <div class = "updater">
           {<UpdateMailchimp sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
-          {<AirTable callbackForStudents= {this.airtableStudentsCallback} callbackForSessions = {this.airtableSessionsCallback} apiKey = {this.props.airtableAPI} baseId = {this.props.airtableBase} />}
+          {<AirTable callbackForStudents= {this.airtableStudentsCallback} callbackForSessions = {this.airtableSessionsCallback} apiKey = {this.props.airtableAPI} baseId = {this.props.airtableBase} listId={this.props.mailchimpList}/>}
         </div>
   
           <img className="logo" img src="https://cdn-az.allevents.in/banners/34f81faeb09b04cf6c85354a6d3baa44-rimg-w2087-h1398-gmir.jpg"

@@ -28,6 +28,10 @@ class MailChimp extends React.Component {
 
     }
 
+    // url : this.props.url
+    // key : this.props.apiKey
+    // list id : this.props.listId
+
     // bind things here
     this.getTemplates = this.getTemplates.bind(this);
     this.getEmailLists = this.getEmailLists.bind(this);
