@@ -104,7 +104,7 @@ class APIRequestForm extends React.Component {
             <header id="AdminPortaltext">ADMIN PORTAL</header>
           </div>
 
-        <form className="form-box" id="api-form" onSubmit={this.validateAPIKeys}>
+        <form className="api-form" id="api-form" onSubmit={this.validateAPIKeys}>
          
           <label>mailchimp API KEY</label><br />
           <input type="text" id="mailchimp-api-key" value={this.state.mailchimpKey} onChange={this.setMailchimpAPIKey}></input><br />

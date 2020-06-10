@@ -18,6 +18,10 @@ class UpdateMailchimp extends React.Component {
         this.addTagToStudent = this.addTagToStudent.bind(this);
         this.addNewSegment = this.addNewSegment.bind(this);
 
+        // mail chimp url : this.props.url
+        // mailchimp key : this.props.apiKey
+        // mailchimp list id : this.props.listId
+
     }
 
     componentDidUpdate() {
@@ -95,7 +99,7 @@ class UpdateMailchimp extends React.Component {
         let firstName = student['FirstName'];
         let lastName = student['LastName'];
         let session = student['Sessions'];
-        let listID = "f3e30ff0d3";
+        let listID = this.props.listId;
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Basic YXBpa2V5OmM0ZmFmMGM2NmRkMjhmZTBiZWJmMmE2Y2NlNWQ0NzVlLXVzMTE=");
@@ -129,7 +133,7 @@ class UpdateMailchimp extends React.Component {
 
     //POST to mailchimp to add an exisiting tag to a student
     addTagToStudent(student) {
-        let listID = this.props.lists[0].id;
+        let listID = this.props.listId;
         let session = student['tag'];
         let email = student['email']
         let segmentID;

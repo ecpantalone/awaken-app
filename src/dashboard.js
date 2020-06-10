@@ -87,18 +87,15 @@ class Dashboard extends React.Component {
   
   
         <div class = "updater">
-          {<UpdateMailchimp sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
+          {<UpdateMailchimp sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members} apiKey={this.props.mailchimpAPI} url={this.props.mailchimpUrl} listId={this.props.mailchimpList}/>}
           {<AirTable callbackForStudents= {this.airtableStudentsCallback} callbackForSessions = {this.airtableSessionsCallback} apiKey = {this.props.airtableAPI} baseId = {this.props.airtableBase} listId={this.props.mailchimpList}/>}
         </div>
   
           <img className="logo" img src="https://cdn-az.allevents.in/banners/34f81faeb09b04cf6c85354a6d3baa44-rimg-w2087-h1398-gmir.jpg"
           ></img>
           <div className="headers">
-  
-  
             <header id="AdminPortaltext">ADMIN PORTAL</header>
           </div>
-  
           <div className="button" onClick={() => this.setState({ showDB: !showDB })}>
             <div className="buttontext">MANAGE DATABASE</div>
           </div>
@@ -107,7 +104,6 @@ class Dashboard extends React.Component {
             <div className="buttontext">SEND CLASS EMAILS</div>
           </div>
           {showEM ? <MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback} apiKey={this.props.mailchimpAPI} url={this.props.mailchimpUrl} listId={this.props.mailchimpList}/> : null}
-  
           <div className="footer">
             <footer>Connect Mindfully. Live Fully.</footer>
           </div>

@@ -52,6 +52,11 @@
     background-image: linear-gradient( to left, white, yellow );
 }
 
+/* .api-form{
+    margin: auto;
+    color: red;
+} */
+
 .button {
     border: none;
     margin-top: 15px;
