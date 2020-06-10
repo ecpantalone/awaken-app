@@ -106,7 +106,7 @@ class Dashboard extends React.Component {
           <div className="button" onClick={() => this.setState({ showEM: !showEM })}>
             <div className="buttontext">SEND CLASS EMAILS</div>
           </div>
-          {showEM ? <MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback} apiKey={this.props.mailchimpAPI} /> : null}
+          {showEM ? <MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback} apiKey={this.props.mailchimpAPI} url={this.props.mailchimpUrl}/> : null}
   
           <div className="footer">
             <footer>Connect Mindfully. Live Fully.</footer>

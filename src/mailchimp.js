@@ -8,8 +8,8 @@ import { Component } from "react";
 // these need to go into an .env file and be gitignored
 const CORS = "http://localhost:8080/";
 // const flatpickr = require("flatpickr");
-const mailchimpAPIKey = "c4faf0c66dd28fe0bebf2a6cce5d475e-us11";
-const mailchimpURI = "https://us11.api.mailchimp.com/3.0/";
+// const mailchimpApiKeyHC = "c4faf0c66dd28fe0bebf2a6cce5d475e-us11";
+// const mailchimpHCURI = "https://us11.api.mailchimp.com/3.0/";
 
 class MailChimp extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class MailChimp extends React.Component {
       redirect: 'follow'
     };
 
-    fetch(CORS + mailchimpURI + "templates?apikey=" + mailchimpAPIKey, requestOptions)
+    fetch(CORS + this.props.url + "templates?apikey=" + this.props.apiKey, requestOptions)
       .then(response => {
         return response.json();
       })
@@ -73,7 +73,7 @@ class MailChimp extends React.Component {
       redirect: 'follow'
     };
 
-    fetch(CORS + mailchimpURI + "lists?apikey=" + mailchimpAPIKey, requestOptions)
+    fetch(CORS + this.props.url + "lists?apikey=" + this.props.apiKey, requestOptions)
       .then(response => {
         return response.json();
       })
@@ -308,7 +308,7 @@ getListSegments() {
     redirect: 'follow'
   };
 
-  fetch(CORS + mailchimpURI + "/lists/f3e30ff0d3/segments?apikey=" + mailchimpAPIKey, requestOptions)
+  fetch(CORS + this.props.url + "/lists/f3e30ff0d3/segments?apikey=" + this.props.apiKey, requestOptions)
     .then(response => {
       return response.json();
     })
@@ -335,7 +335,7 @@ getListSegments() {
 
     };
 
-    fetch(CORS + mailchimpURI + "/lists/5daa72e500/members?count=1000&status=subscribed&apikey=" + mailchimpAPIKey, requestOptions)
+    fetch(CORS + this.props.url + "/lists/5daa72e500/members?count=1000&status=subscribed&apikey=" + this.props.apiKey, requestOptions)
       .then(response => {
         return response.json();
       })

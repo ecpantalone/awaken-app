@@ -16,12 +16,14 @@ class App extends React.Component {
       airtableAPI: '',
       airtableBase: '',
       mailchimpAPI: '',
+      mailchimpUrl: '',
       APIisValid: false
     }
 
     this.airtableAPICallback = this.airtableAPICallback.bind(this)
     this.airtableBaseCallback = this.airtableBaseCallback.bind(this)
     this.mailchimpAPICallback = this.mailchimpAPICallback.bind(this)
+    this.mailchimpUrlCallback = this.mailchimpUrlCallback.bind(this)
     this.validAPICallback = this.validAPICallback.bind(this)
   }
 
@@ -43,6 +45,12 @@ class App extends React.Component {
   });
   }
 
+  mailchimpUrlCallback = (mailchimpUrl) => {
+    this.setState({
+      mailchimpUrl: mailchimpUrl
+  });
+  }
+
   validAPICallback = (valid) => {
     this.setState({
       APIisValid: valid
@@ -60,8 +68,8 @@ class App extends React.Component {
     console.log("in app.js mailchimpapi?", this.state.mailchimpAPI)
   return (
     <div>
-      {!APIisValid ? <APIRequestForm callbackForAirtableAPI={this.airtableAPICallback} callbackForAirtableBase={this.airtableBaseCallback} callbackForMailchimpAPI={this.mailchimpAPICallback} callbackForValidation={this.validAPICallback} /> : null}
-      {APIisValid ? <Dashboard airtableAPI={this.state.airtableAPI} airtableBase={this.state.airtableBase} mailchimpAPI={this.state.mailchimpAPI}/> : null}
+      {!APIisValid ? <APIRequestForm callbackForAirtableAPI={this.airtableAPICallback} callbackForAirtableBase={this.airtableBaseCallback} callbackForMailchimpAPI={this.mailchimpAPICallback} callbackForMailchimpUrl={this.mailchimpUrlCallback} callbackForValidation={this.validAPICallback} /> : null}
+      {APIisValid ? <Dashboard airtableAPI={this.state.airtableAPI} airtableBase={this.state.airtableBase} mailchimpAPI={this.state.mailchimpAPI} mailchimpUrl={this.state.mailchimpUrl}/> : null}
     </div>
   );  
   }

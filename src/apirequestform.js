@@ -13,11 +13,13 @@ class APIRequestForm extends React.Component {
         this.state = {
             keysValid: false,
             mailchimpKey: '',
+            mailchimpUrl: '',
             airtableKey: '',
             airtableBase: ''
         }
 
         this.setMailchimpAPIKey = this.setMailchimpAPIKey.bind(this);
+        this.setMailchimpUrl = this.setMailchimpUrl.bind(this);
         this.setAirTableAPIKey = this.setAirTableAPIKey.bind(this);
         this.setAirTableBase = this.setAirTableBase.bind(this);
         this.validateAPIKeys = this.validateAPIKeys.bind(this);
@@ -29,6 +31,15 @@ class APIRequestForm extends React.Component {
         // console.log('set mailchimp', e);
         this.setState({mailchimpKey: e.target.value}, function () {
           console.log("mailchimpAPI", this.state.mailchimpKey);
+      });
+    }
+
+    setMailchimpUrl(){
+      const mailchimpApiArray = (this.state.mailchimpKey).split('-');
+      const mailchimpUrlBuilder = "https://" + mailchimpApiArray[1] + ".api.mailchimp.com/3.0/";
+      console.log(mailchimpUrlBuilder);
+      this.setState({mailchimpUrl: mailchimpUrlBuilder}, function () {
+        console.log("mailchimpURL", this.state.mailchimpUrl);
       });
     }
 
@@ -55,14 +66,17 @@ class APIRequestForm extends React.Component {
     validateAPIKeys(e) {
       e.preventDefault();
       this.setState({keysValid: true});
+      this.setMailchimpUrl();
       // console.log('validate', e)
       this.props.callbackForValidation(this.state.keysValid);
       this.props.callbackForAirtableAPI(this.state.airtableKey);
       this.props.callbackForAirtableBase(this.state.airtableBase);
       this.props.callbackForMailchimpAPI(this.state.mailchimpKey);
-      console.log('mailchimpAPI', this.state.mailchimpKey)
-      console.log('airtableAPI', this.state.airtableKey)
-      console.log('airtable base', this.state.airtableBase)
+      this.props.callbackForMailchimpUrl(this.state.mailchimpUrl);
+      console.log('mailchimpURL', this.state.mailchimpUrl);
+      console.log('mailchimpAPI', this.state.mailchimpKey);
+      console.log('airtableAPI', this.state.airtableKey);
+      console.log('airtable base', this.state.airtableBase);
     }
     
 
