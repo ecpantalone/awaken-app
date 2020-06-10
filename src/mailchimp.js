@@ -5,7 +5,6 @@ import Flatpickr from "react-flatpickr";
 import { Component } from "react";
 
 
-// these need to go into an .env file and be gitignored
 const CORS = "http://localhost:8080/";
 // const flatpickr = require("flatpickr");
 
@@ -436,14 +435,7 @@ getListSegments() {
 
         <datalist id="subjectLines">
         <option>Spring Meditations</option>
-        <option>Yellow</option> 
-        <option>Blue</option> 
         <option>Week 2:</option> 
-        <option>Orange</option> 
-        <option>Purple</option> 
-        <option>Black</option> 
-        <option>White</option> 
-        <option>Gray</option> 
         </datalist>
       </div>
       <div className="form-box">
