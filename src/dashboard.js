@@ -88,7 +88,7 @@ class Dashboard extends React.Component {
   
         <div class = "updater">
           {<UpdateMailchimp sessions = {this.state.sessions} students = {this.state.students} lists = {this.state.lists} segments = {this.state.segments} members = {this.state.members}/>}
-          {<AirTable callbackForStudents= {this.airtableStudentsCallback} callbackForSessions = {this.airtableSessionsCallback}/>}
+          {<AirTable callbackForStudents= {this.airtableStudentsCallback} callbackForSessions = {this.airtableSessionsCallback} apiKey = {this.props.airtableAPI} baseId = {this.props.airtableBase} />}
         </div>
   
           <img className="logo" img src="https://cdn-az.allevents.in/banners/34f81faeb09b04cf6c85354a6d3baa44-rimg-w2087-h1398-gmir.jpg"
@@ -106,7 +106,7 @@ class Dashboard extends React.Component {
           <div className="button" onClick={() => this.setState({ showEM: !showEM })}>
             <div className="buttontext">SEND CLASS EMAILS</div>
           </div>
-          {showEM ? <MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback} /> : null}
+          {showEM ? <MailChimp callbackForLists={this.mailchimpListsCallback} callbackForSegments={this.mailchimpSegmentsCallback} callbackForMembers={this.mailchimpMembersCallback} apiKey={this.props.mailchimpAPI} /> : null}
   
           <div className="footer">
             <footer>Connect Mindfully. Live Fully.</footer>

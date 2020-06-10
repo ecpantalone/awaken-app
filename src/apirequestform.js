@@ -13,15 +13,17 @@ class APIRequestForm extends React.Component {
         this.state = {
             keysValid: false,
             mailchimpKey: '',
-            airtableKey: ''
+            airtableKey: '',
+            airtableBase: ''
         }
 
-        this.setMailchimpAPIKeys = this.setMailchimpAPIKeys.bind(this);
-        this.setAirTableAPIKeys = this.setAirTableAPIKeys.bind(this);
+        this.setMailchimpAPIKey = this.setMailchimpAPIKey.bind(this);
+        this.setAirTableAPIKey = this.setAirTableAPIKey.bind(this);
+        this.setAirTableBase = this.setAirTableBase.bind(this);
         this.validateAPIKeys = this.validateAPIKeys.bind(this);
     }
 
-    setMailchimpAPIKeys(e) {
+    setMailchimpAPIKey(e) {
         // set for mailchimp
         e.preventDefault();
         // console.log('set mailchimp', e);
@@ -30,7 +32,7 @@ class APIRequestForm extends React.Component {
       });
     }
 
-    setAirTableAPIKeys(e) {
+    setAirTableAPIKey(e) {
       // set for airtable
       e.preventDefault();
       // console.log('set airtable', e);
@@ -40,15 +42,27 @@ class APIRequestForm extends React.Component {
 
   }
 
+  setAirTableBase(e) {
+    // set for airtable
+    e.preventDefault();
+    // console.log('set airtable', e);
+    this.setState({airtableBase: e.target.value}, function () {
+      console.log("airtableBase", this.state.airtableBase);
+    });
+
+}
+
     validateAPIKeys(e) {
       e.preventDefault();
       this.setState({keysValid: true});
       // console.log('validate', e)
       this.props.callbackForValidation(this.state.keysValid);
       this.props.callbackForAirtableAPI(this.state.airtableKey);
+      this.props.callbackForAirtableBase(this.state.airtableBase);
       this.props.callbackForMailchimpAPI(this.state.mailchimpKey);
       console.log('mailchimpAPI', this.state.mailchimpKey)
       console.log('airtableAPI', this.state.airtableKey)
+      console.log('airtable base', this.state.airtableBase)
     }
     
 
@@ -66,9 +80,11 @@ class APIRequestForm extends React.Component {
         <form className="form-box" id="api-form" onSubmit={this.validateAPIKeys}>
          
           <label>mailchimp API KEY</label><br />
-          <input type="text" id="mailchimp-api-key" value={this.state.mailchimpKey} onChange={this.setMailchimpAPIKeys}></input><br />
+          <input type="text" id="mailchimp-api-key" value={this.state.mailchimpKey} onChange={this.setMailchimpAPIKey}></input><br />
           <label>airtable API KEY</label><br />
-          <input type="text" id="airtable-api-key" value={this.state.airtableKey} onChange={this.setAirTableAPIKeys}></input><br />
+          <input type="text" id="airtable-api-key" value={this.state.airtableKey} onChange={this.setAirTableAPIKey}></input><br />
+          <label>airtable BASE ID</label><br />
+          <input type="text" id="airtable-base-id" value={this.state.airtableBase} onChange={this.setAirTableBase}></input><br />
           
           <input type="Submit" value="Submit" onClick={this.validateAPIKeys} id="api-form"></input>
         </form>

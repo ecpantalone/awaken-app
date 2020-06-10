@@ -7,12 +7,7 @@ import request from 'request';
 // New  Branch created for Forms
 
 const AirtableVar = require('airtable');
-AirtableVar.configure({
-    endpointUrl: 'https://api.airtable.com',
-    apiKey: 'keyn1hpKbx5jhKY7i'
-});
-
-const base = AirtableVar.base('appCqqPJRIUaLQHZB');
+let base;
 
 let studentList = [];
 
@@ -24,10 +19,19 @@ class AirTable extends React.Component {
             sessions: [],
             students: []
         }
+        this.config = this.config.bind(this);
         this.getSessions = this.getSessions.bind(this);
         this.getStudents = this.getStudents.bind(this);
         this.buildSession = this.buildSession.bind(this);
 
+    }
+
+    config() {
+        AirtableVar.configure({
+            endpointUrl: 'https://api.airtable.com',
+            apiKey: this.props.apiKey
+        });
+        base = AirtableVar.base(this.props.baseId);
     }
     
     getSessions() {
@@ -79,6 +83,7 @@ class AirTable extends React.Component {
     }
 
     componentDidMount() {
+        this.config();
         this.getSessions();
         this.getStudents();
     }
@@ -90,7 +95,6 @@ class AirTable extends React.Component {
     render() {
         let displaySessions = [];
         displaySessions = this.state.sessions.map(this.buildSession);
-
         return (
             <div></div>
         );
