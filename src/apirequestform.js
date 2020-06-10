@@ -14,11 +14,13 @@ class APIRequestForm extends React.Component {
             keysValid: false,
             mailchimpKey: '',
             mailchimpUrl: '',
+            mailchimpList: '',
             airtableKey: '',
             airtableBase: ''
         }
 
         this.setMailchimpAPIKey = this.setMailchimpAPIKey.bind(this);
+        this.setMailchimpList = this.setMailchimpList.bind(this);
         this.setMailchimpUrl = this.setMailchimpUrl.bind(this);
         this.setAirTableAPIKey = this.setAirTableAPIKey.bind(this);
         this.setAirTableBase = this.setAirTableBase.bind(this);
@@ -33,6 +35,15 @@ class APIRequestForm extends React.Component {
           console.log("mailchimpAPI", this.state.mailchimpKey);
       });
     }
+
+    setMailchimpList(e) {
+      // set for mailchimp
+      e.preventDefault();
+      // console.log('set mailchimp', e);
+      this.setState({mailchimpList: e.target.value}, function () {
+        console.log("mailchimpList", this.state.mailchimpList);
+    });
+  }
 
     setMailchimpUrl(){
       const mailchimpApiArray = (this.state.mailchimpKey).split('-');
@@ -73,6 +84,7 @@ class APIRequestForm extends React.Component {
       this.props.callbackForAirtableBase(this.state.airtableBase);
       this.props.callbackForMailchimpAPI(this.state.mailchimpKey);
       this.props.callbackForMailchimpUrl(this.state.mailchimpUrl);
+      this.props.callbackForMailchimpList(this.state.mailchimpList);
       console.log('mailchimpURL', this.state.mailchimpUrl);
       console.log('mailchimpAPI', this.state.mailchimpKey);
       console.log('airtableAPI', this.state.airtableKey);
@@ -95,6 +107,8 @@ class APIRequestForm extends React.Component {
          
           <label>mailchimp API KEY</label><br />
           <input type="text" id="mailchimp-api-key" value={this.state.mailchimpKey} onChange={this.setMailchimpAPIKey}></input><br />
+          <label>mailchimp LIST ID</label><br />
+          <input type="text" id="mailchimp-list-id" value={this.state.mailchimpList} onChange={this.setMailchimpList}></input><br />
           <label>airtable API KEY</label><br />
           <input type="text" id="airtable-api-key" value={this.state.airtableKey} onChange={this.setAirTableAPIKey}></input><br />
           <label>airtable BASE ID</label><br />

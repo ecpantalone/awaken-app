@@ -17,6 +17,7 @@ class App extends React.Component {
       airtableBase: '',
       mailchimpAPI: '',
       mailchimpUrl: '',
+      mailchimpList: '',
       APIisValid: false
     }
 
@@ -24,6 +25,7 @@ class App extends React.Component {
     this.airtableBaseCallback = this.airtableBaseCallback.bind(this)
     this.mailchimpAPICallback = this.mailchimpAPICallback.bind(this)
     this.mailchimpUrlCallback = this.mailchimpUrlCallback.bind(this)
+    this.mailchimpListCallback = this.mailchimpListCallback.bind(this)
     this.validAPICallback = this.validAPICallback.bind(this)
   }
 
@@ -51,6 +53,12 @@ class App extends React.Component {
   });
   }
 
+  mailchimpListCallback = (mailchimpList) => {
+    this.setState({
+      mailchimpList: mailchimpList
+  });
+  }
+
   validAPICallback = (valid) => {
     this.setState({
       APIisValid: valid
@@ -68,8 +76,8 @@ class App extends React.Component {
     console.log("in app.js mailchimpapi?", this.state.mailchimpAPI)
   return (
     <div>
-      {!APIisValid ? <APIRequestForm callbackForAirtableAPI={this.airtableAPICallback} callbackForAirtableBase={this.airtableBaseCallback} callbackForMailchimpAPI={this.mailchimpAPICallback} callbackForMailchimpUrl={this.mailchimpUrlCallback} callbackForValidation={this.validAPICallback} /> : null}
-      {APIisValid ? <Dashboard airtableAPI={this.state.airtableAPI} airtableBase={this.state.airtableBase} mailchimpAPI={this.state.mailchimpAPI} mailchimpUrl={this.state.mailchimpUrl}/> : null}
+      {!APIisValid ? <APIRequestForm callbackForAirtableAPI={this.airtableAPICallback} callbackForAirtableBase={this.airtableBaseCallback} callbackForMailchimpAPI={this.mailchimpAPICallback} callbackForMailchimpUrl={this.mailchimpUrlCallback} callbackForMailchimpList={this.mailchimpListCallback} callbackForValidation={this.validAPICallback} /> : null}
+      {APIisValid ? <Dashboard airtableAPI={this.state.airtableAPI} airtableBase={this.state.airtableBase} mailchimpAPI={this.state.mailchimpAPI} mailchimpUrl={this.state.mailchimpUrl} mailchimpList={this.state.mailchimpList}/> : null}
     </div>
   );  
   }
