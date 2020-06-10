@@ -83,7 +83,7 @@ class MailChimp extends React.Component {
           lists: jsonData.lists,
           emailIsLoading: false
         });
-        // console.log(this.state.lists);
+        console.log(this.state.lists);
         this.props.callbackForLists(this.state.lists);
       })
       .catch(error => console.log('error', error));
@@ -335,7 +335,7 @@ getListSegments() {
 
     };
 
-    fetch(CORS + this.props.url + "/lists/5daa72e500/members?count=1000&status=subscribed&apikey=" + this.props.apiKey, requestOptions)
+    fetch(CORS + this.props.url + "/lists/f3e30ff0d3/members?count=1000&status=subscribed&apikey=" + this.props.apiKey, requestOptions)
       .then(response => {
         return response.json();
       })
